@@ -2,7 +2,7 @@ package com.bookstore.book.model;
 
 import java.util.Date;
 
-public class BookDetailVO {
+public class BookDetailVo {
 	private int bd_no; //NUMBER NOT NULL, /* 상품번호 */
 	private String bd_ISBN; //VARCHAR2(60) NOT NULL, /* ISBN */
 	private String bd_title; //VARCHAR2(50) NOT NULL, /* 제목 */
@@ -17,11 +17,11 @@ public class BookDetailVO {
 	private Date bd_regdate;// DATE DEFAULT sysdate, /* 등록일자 */
 	private int bk_kind_no;// NUMBER NOT NULL /* 분류번호 */
 	
-	public BookDetailVO() {
+	public BookDetailVo() {
 		super();
 	}
 
-	public BookDetailVO(int bd_no, String bd_ISBN, String bd_title, Date bd_pubdate, String bd_author, String bd_image,
+	public BookDetailVo(int bd_no, String bd_ISBN, String bd_title, Date bd_pubdate, String bd_author, String bd_image,
 			String bd_about, int bd_price, String bd_publisher, int bd_sellcount, String bd_delflag, Date bd_regdate,
 			int bk_kind_no) {
 		super();
