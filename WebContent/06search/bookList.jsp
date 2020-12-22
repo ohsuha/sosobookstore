@@ -1,4 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@page import="com.bookstore.common.PageVo"%>
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="com.bookstore.book.model.BookDetailVo"%>
+<%@page import="com.bookstore.book.model.BookDetailDAO"%>
+<%@page import="java.util.List"%>
+<%@page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -26,6 +33,60 @@
 </head>
 
 <body>
+<%
+////////도서 리스트 보여주기///////
+//[1] main 에서 shop 클릭하면 get방식으로 이동 
+//[2] bookList.jsp에서 검색 버튼 클릭하면 post방식으로 submit
+//[3] bookList.jsp에서 페이지 번호를 클릭하면 get방식으로 이동
+
+//1.
+request.setCharacterEncoding("utf-8");
+
+String keyword=request.getParameter("searchKeyword");
+String condition=request.getParameter("searchCondition");
+
+//2.
+BookDetailDAO bdDao = new BookDetailDAO();
+List<BookDetailVo> list = null;
+try {
+	list = bdDao.showAll(keyword, condition);
+	System.out.print("불러온 도서 레코드 수 :"+list.size());
+} catch (SQLException e) {
+	e.printStackTrace();
+}
+
+//3.
+DecimalFormat df = new DecimalFormat("#,###");
+
+if(keyword==null){
+	keyword="";
+}
+if(condition==null){
+	condition="";
+}
+
+//////베스트셀러 도서 리스트 보여주기///////
+//1.
+//2
+List<BookDetailVo> bestList = null;
+try{
+	bestList=bdDao.showBestseller();
+	System.out.print("베스트셀러 레코드 수 :"+bestList.size());
+}catch(SQLException e){
+	e.printStackTrace();
+}
+
+
+//페이징처리
+//PageVo pageVo = new PageVo(int currentPage, int totalRecord, int pageSize, int blockSize);
+int currentPage=1;
+if(request.getParameter("currentPage")!=null){
+	currentPage=Integer.parseInt(request.getParameter("currentPage"));
+}
+
+PageVo pageVo = new PageVo(currentPage, list.size(), 9, 5);
+
+%>
     <!-- Hero Section Begin -->
     <section class="hero hero-normal">
         <div class="container">
@@ -34,32 +95,22 @@
                     <div class="hero__categories">
                         <div class="hero__categories__all">
                             <i class="fa fa-bars"></i>
-                            <span>All departments</span>
+                            <span>전체</span>
                         </div>
                         <ul>
-                            <li><a href="#">Fresh Meat</a></li>
-                            <li><a href="#">Vegetables</a></li>
-                            <li><a href="#">Fruit & Nut Gifts</a></li>
-                            <li><a href="#">Fresh Berries</a></li>
-                            <li><a href="#">Ocean Foods</a></li>
-                            <li><a href="#">Butter & Eggs</a></li>
-                            <li><a href="#">Fastfood</a></li>
-                            <li><a href="#">Fresh Onion</a></li>
-                            <li><a href="#">Papayaya & Crisps</a></li>
-                            <li><a href="#">Oatmeal</a></li>
-                            <li><a href="#">Fresh Bananas</a></li>
+                            <li><a href="#">문학</a></li>
+                            <li><a href="#">사회과학</a></li>
+                            <li><a href="#">예술</a></li>
+                            <li><a href="#">철학</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-9">
                     <div class="hero__search">
                         <div class="hero__search__form">
-                            <form action="#">
-                                <div class="hero__search__categories">
-                                    All Categories
-                                    <span class="arrow_carrot-down"></span>
-                                </div>
-                                <input type="text" placeholder="What do yo u need?">
+                        <!-- 검색 버튼 -->
+                            <form action="bookList.jsp" method="post" name="searchFrm" >
+                                <input type="text" name="searchKeyword" placeholder="검색하실 책의 제목 또는 작가명을 입력하세요." value="<%=keyword%>">
                                 <button type="submit" class="site-btn">SEARCH</button>
                             </form>
                         </div>
@@ -106,142 +157,117 @@
                         <div class="sidebar__item">
                             <h4>Book field</h4>
                             <ul>
-                                <li><a href="#" value="literature">Literature</a></li>
-                                <li><a href="#" value="humanities">Humanities</a></li>
-                                <li><a href="#" value="arts">Arts</a></li>
-                                <li><a href="#" value="Magazine">Magazine</a></li>
+                                <li><a href="/sosobookstore/06search/bookList.jsp" value="문학">전체</a></li>
+                                <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=문학" value="문학">문학</a></li>
+                                <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=사회과학" value="사회과학">사회과학</a></li>
+                                <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=예술" value="예술">예술</a></li>
+                                <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=철학" value="철학">철학</a></li>
                             </ul>
                         </div>
-                        <!-- 신간 도서 소개 -->
-                        <div class="sidebar__item">
+                       
+                       <!-- 추천 도서 소개 -->
+                        <div class="sidebar__item"> 
                             <div class="latest-product__text">
-                                <h4>New Arivals</h4>
+                                <h4>추천 도서</h4>
                                 <div class="latest-product__slider owl-carousel">
                                     <div class="latest-prdouct__slider__item">
-                                        <a href="#" class="latest-product__item">
+                                        <!-- 최신 도서 소개 리스트 [반복] -->
+                                        <%if(bestList!=null && !bestList.isEmpty()){
+                                        	for(int i=0; i<3; i++) {
+                                        		BookDetailVo vo = bestList.get(i);
+                                        	%>
+                                        	<a href="/sosobookstore/07detail/bookDetail.jsp?no=<%=vo.getBd_no() %>" class="latest-product__item">
                                             <div class="latest-product__item__pic">
-                                                <img src="../bs/img/latest-product/lp-1.jpg" alt="">
+                                                <img src="<%=vo.getBd_image() %>" alt="도서 이미지">
                                             </div>
                                             <div class="latest-product__item__text">
-                                                <h6>Crab Pool Security</h6>
-                                                <span>$30.00</span>
+                                                <h6><%=vo.getBd_title() %></h6>
+                                                <span><%=df.format(vo.getBd_price()) %>원</span>
                                             </div>
                                         </a>
-                                        <a href="#" class="latest-product__item">
-                                            <div class="latest-product__item__pic">
-                                                <img src="../bs/img/latest-product/lp-2.jpg" alt="">
-                                            </div>
-                                            <div class="latest-product__item__text">
-                                                <h6>Crab Pool Security</h6>
-                                                <span>$30.00</span>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="latest-product__item">
-                                            <div class="latest-product__item__pic">
-                                                <img src="../bs/img/latest-product/lp-3.jpg" alt="">
-                                            </div>
-                                            <div class="latest-product__item__text">
-                                                <h6>Crab Pool Security</h6>
-                                                <span>$30.00</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="latest-prdouct__slider__item">
-                                        <a href="#" class="latest-product__item">
-                                            <div class="latest-product__item__pic">
-                                                <img src="../bs/img/latest-product/lp-1.jpg" alt="">
-                                            </div>
-                                            <div class="latest-product__item__text">
-                                                <h6>Crab Pool Security</h6>
-                                                <span>$30.00</span>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="latest-product__item">
-                                            <div class="latest-product__item__pic">
-                                                <img src="../bs/img/latest-product/lp-2.jpg" alt="">
-                                            </div>
-                                            <div class="latest-product__item__text">
-                                                <h6>Crab Pool Security</h6>
-                                                <span>$30.00</span>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="latest-product__item">
-                                            <div class="latest-product__item__pic">
-                                                <img src="../bs/img/latest-product/lp-3.jpg" alt="">
-                                            </div>
-                                            <div class="latest-product__item__text">
-                                                <h6>Crab Pool Security</h6>
-                                                <span>$30.00</span>
-                                            </div>
-                                        </a>
+                                        <%}//if
+                                       	}//for%>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-7">
                    <div class="filter__item">
                         <div class="row">
                             <div class="col-lg-4 col-md-5">
-                                <div class="filter__sort">
-                                    <span>Sort By</span>
+                                <!-- <div class="filter__sort">
+                            		<span>Sort By</span>
                                     <select>
-                                        <option value="0">Default</option>
-                                        <option value="0">Default</option>
+                                        <option value="0">최신순</option>
+                                        <option value="1">인기순</option>
                                     </select>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="col-lg-4 col-md-4">
 
                             </div>
                             <div class="col-lg-4 col-md-3">
                                     <div class="filter__found">
-                                    <h6><span>16</span> Products found</h6>
+                                    <h6><span>총 <%=list.size() %>개</span>의 도서가 있습니다.</h6>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
+                    <!-- 반복되는 상품 리스트 형식 -->
+                    <% 
+                    if(list==null && list.isEmpty()){%>
+                    	<p> 검색 결과가 존재하지 않습니다. </p>
+                    <%}else{
+                    	int num = pageVo.getNum();
+                    	int curPos = pageVo.getCurPos();
+                    	for(int i=0; i<pageVo.getPageSize(); i++){
+                    		if(num<1) break;
+                    		
+                    		BookDetailVo vo = list.get(curPos++);
+                    		num--;
+                    		%>
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="../bs/img/product/product-1.jpg">
+                            
+                                <div class="product__item__pic set-bg" data-setbg="<%=vo.getBd_image()%>">
                                     <ul class="product__item__pic__hover">
                                         <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><a href="#">Crab Pool Security</a></h6>
-                                    <h5>$30.00</h5>
+                                    <h6><a href="/sosobookstore/07detail/bookDetail.jsp?no=<%=vo.getBd_no() %>"><%=vo.getBd_title() %></a></h6>
+                                    <h5><%=df.format(vo.getBd_price()) %>원</h5>
                                 </div>
                             </div>
                         </div>
-                        <!-- 반복되는 상품 리스트 형식 -->
-                        <!-- 
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
-                                    <ul class="product__item__pic__hover">
-                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product__item__text">
-                                    <h6><a href="#">Crab Pool Security</a></h6>
-                                    <h5>$30.00</h5>
-                                </div>
-                            </div>
-                        </div>
-                         -->
+                      <%}//for 
+                    }//if%>
+                        
                     </div>
                     <!-- 페이지!!!!!!! -->
                     <div class="product__pagination">
-                    	<a href="#"><i class="fa fa-long-arrow-left"></i></a>
-                        <a href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                    	<!-- 이전 블럭으로 이동 -->
+                    	<%if(pageVo.getFirstPage()>1) {%>
+                    		<a href="bookList.jsp?currentPage=<%=pageVo.getFirstPage()-1%>&searchKeyword=<%=keyword%>&searchCondition=<%=condition%>"><i class="fa fa-long-arrow-left"></i></a>
+                    	<%} %>
+                    	<!-- 1 2 3 4 5  -->
+                        <% for(int i=pageVo.getFirstPage();i<=pageVo.getLastPage();i++){
+                        	if(i>pageVo.getTotalPage()) break;
+                        	
+                        	if(i==pageVo.getCurrentPage()){%>
+                        		<a><%=i%></a>
+                       	<%	}else{ %>
+                       			<a href="bookList.jsp?currentPage=<%=i%>&searchKeyword=<%=keyword%>&searchCondition=<%=condition%>"><%=i%></a>
+                    	<%}//if
+                    	}//for %>
+                    	<!-- 1 2 3 4 5  -->
+                    	<%if(pageVo.getLastPage()<pageVo.getTotalPage()){ %>
+                        	<a href="bookList.jsp?currentPage=<%=pageVo.getLastPage()+1%>&searchKeyword=<%=keyword%>&searchCondition=<%=condition%>"><i class="fa fa-long-arrow-right"></i></a>
+                        <%} %>
                     </div>
                 </div>
             </div>
