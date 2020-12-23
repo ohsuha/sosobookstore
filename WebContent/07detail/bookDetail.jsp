@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="com.bookstore.comment.model.CommentDTO"%>
 <%@page import="com.bookstore.comment.model.CommentDAO"%>
 <%@page import="com.bookstore.book.model.BookDetailVo"%>
 <%@page import="java.sql.SQLException"%>
@@ -45,8 +47,8 @@
 	System.out.print("파라미터로 받은 no:"+intNo);
 	
 	//2
+	//[[도서 정보 가져오기]]
 	BookDetailDAO bookDao=new BookDetailDAO();
-	
 	BookDetailVo vo = null;
 	try{
 		vo = bookDao.selectByNo(intNo);
@@ -54,16 +56,21 @@
 		e.printStackTrace();
 	}
 	
+	//[[댓글 가져오기]]
+	CommentDAO comDao = new CommentDAO();
+	List<CommentDTO> list = null;
+	try{
+		list=comDao.bookReview(intNo);
+	}catch(SQLException e){
+		e.printStackTrace();
+	}
+	
+	int comCnt=list.size();
+	
 	//3
 	//도서 소개 줄임
 	String content = vo.getBd_about();
 	String shortCont = content.substring(0, 120)+"...";
-	
-	
-	
-	
-	
-	
 	
 %>
     <!-- Breadcrumb Section Begin -->
@@ -113,7 +120,7 @@
                     <div class="product__details__text">
                         <h3><%=vo.getBd_title() %></h3>
                         <div class="product__details__rating">
-                            <span>개의 리뷰가 있습니다.</span>
+                            <span><%=comCnt %>개의 리뷰가 있습니다.</span>
                         </div>
                         <div class="product__details__price">12,600원</div>
                         <p><%=shortCont%></p>
@@ -143,7 +150,7 @@
                             
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
-                                    aria-selected="false">Reviews <span>(1)</span></a>
+                                    aria-selected="false">Reviews <span>(<%=comCnt %>)</span></a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -155,15 +162,47 @@
                             </div>
                             <div class="tab-pane" id="tabs-3" role="tabpanel">
                                 <div class="product__details__tab__desc">
-                                    <p></p>
-                                    <table>
-                                    	<tr>
-                                    		<th>작성자</th>
-                                    		<th>리뷰 내용</th>
-                                    	</tr>
-                                    	<tr>
-                                    	</tr>
-                                    </table>
+                                            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="shoping__product">리뷰</th>
+                                    <th></th>
+                                    <th>작성자</th>
+	                                <th>작성일</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%if(list!=null && !list.isEmpty()){ 
+                            	for(int i=0;i<list.size();i++){
+                            		CommentDTO dto = new CommentDTO();
+                            		dto = list.get(i);
+                            	%>
+                                <tr>
+                                    <td class="shoping__cart__item">
+                                        <h5><%=dto.getSc_about() %></h5>
+                                    </td>
+                                    <td></td>
+                                    <td class="shoping__cart__price">
+                                        <h5><%=dto.getBu_userid() %></h5>
+                                    </td>
+                                    <td class="shoping__cart__total">
+                                        <h5><%=dto.getSc_regdate() %></h5>
+                                    </td>
+                                    <td class="shoping__cart__item__close">
+                                        <span class="icon_close"></span>
+                                    </td>
+                                </tr>
+                                <%}//for
+                                }//if %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
                                 </div>
                             </div>
                         </div>

@@ -12,7 +12,7 @@ import com.bookstore.db.ConnectionPoolMgr;
 public class CommentDAO {
 	private ConnectionPoolMgr pool;
 	
-	CommentDAO(){
+	public CommentDAO(){
 		pool=ConnectionPoolMgr.getInstance();
 	}
 	
