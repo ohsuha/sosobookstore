@@ -14,6 +14,16 @@ public class CommentDTO {
 	public CommentDTO() {
 		super();
 	}
+	
+	public CommentDTO(int c_no, int bd_no, String bu_userid, String sc_about, Date sc_regdate, String bd_title) {
+		super();
+		this.c_no = c_no;
+		this.bd_no = bd_no;
+		this.bu_userid = bu_userid;
+		this.sc_about = sc_about;
+		this.sc_regdate = sc_regdate;
+		this.bd_title = bd_title;
+	}
 
 	public int getC_no() {
 		return c_no;
