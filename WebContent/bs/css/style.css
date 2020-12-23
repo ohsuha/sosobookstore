@@ -398,10 +398,17 @@ ol {
 }
 
 .header__top__right__auth a {
-	display: block;
 	font-size: 14px;
-	color: #1c1c1c;
+	color: #636262;
+	border-left:1px solid;
+	border-left-color: #d4d4d4;
+	padding:0 10px
 }
+
+.header__top__right__auth a:first-child{
+	border-left:none;
+}
+
 
 .header__top__right__auth a i {
 	margin-right: 6px;
