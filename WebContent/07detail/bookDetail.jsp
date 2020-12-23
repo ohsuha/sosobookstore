@@ -1,3 +1,4 @@
+<%@page import="com.bookstore.comment.model.CommentDAO"%>
 <%@page import="com.bookstore.book.model.BookDetailVo"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="com.bookstore.book.model.BookDetailDAO"%>
@@ -45,6 +46,7 @@
 	
 	//2
 	BookDetailDAO bookDao=new BookDetailDAO();
+	
 	BookDetailVo vo = null;
 	try{
 		vo = bookDao.selectByNo(intNo);
@@ -53,9 +55,16 @@
 	}
 	
 	//3
-	//[1] 도서 소개 줄임
+	//도서 소개 줄임
 	String content = vo.getBd_about();
 	String shortCont = content.substring(0, 120)+"...";
+	
+	
+	
+	
+	
+	
+	
 %>
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="../bs/img/breadcrumb.jpg">
@@ -104,7 +113,7 @@
                     <div class="product__details__text">
                         <h3><%=vo.getBd_title() %></h3>
                         <div class="product__details__rating">
-                            <span>18개의 리뷰가 있습니다.</span>
+                            <span>개의 리뷰가 있습니다.</span>
                         </div>
                         <div class="product__details__price">12,600원</div>
                         <p><%=shortCont%></p>
@@ -166,6 +175,7 @@
     <!-- Product Details Section End -->
 
     <!-- Related Product Section Begin -->
+    	<!-- 관련 상품
     <section class="related-product">
         <div class="container">
             <div class="row">
@@ -176,7 +186,7 @@
                 </div>
             </div>
             <div class="row">
-            	<!-- 관련 상품 한개 -->
+            
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="img/product/product-1.jpg">
@@ -189,7 +199,7 @@
                             <h5>$30.00</h5>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- 예시 멀쩡한 거
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
