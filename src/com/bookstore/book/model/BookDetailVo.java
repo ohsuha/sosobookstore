@@ -16,6 +16,8 @@ public class BookDetailVo {
 	private String bd_delflag;// VARCHAR2(10), /* 도서삭제 */
 	private Date bd_regdate;// DATE DEFAULT sysdate, /* 등록일자 */
 	private int bk_kind_no;// NUMBER NOT NULL /* 분류번호 */
+	//table join : book_kind
+	private String bk_kind_info;
 	
 	public BookDetailVo() {
 		super();
@@ -23,7 +25,7 @@ public class BookDetailVo {
 
 	public BookDetailVo(int bd_no, String bd_ISBN, String bd_title, Date bd_pubdate, String bd_author, String bd_image,
 			String bd_about, int bd_price, String bd_publisher, int bd_sellcount, String bd_delflag, Date bd_regdate,
-			int bk_kind_no) {
+			int bk_kind_no,  String bk_kind_info) {
 		super();
 		this.bd_no = bd_no;
 		this.bd_ISBN = bd_ISBN;
@@ -38,6 +40,16 @@ public class BookDetailVo {
 		this.bd_delflag = bd_delflag;
 		this.bd_regdate = bd_regdate;
 		this.bk_kind_no = bk_kind_no;
+		this.bk_kind_info = bk_kind_info;
+	}
+
+	
+	public String getBk_kind_info() {
+		return bk_kind_info;
+	}
+
+	public void setBk_kind_info(String bk_kind_info) {
+		this.bk_kind_info = bk_kind_info;
 	}
 
 	public int getBd_no() {
@@ -149,6 +161,8 @@ public class BookDetailVo {
 		return "BookDetailVo [bd_no=" + bd_no + ", bd_ISBN=" + bd_ISBN + ", bd_title=" + bd_title + ", bd_pubdate="
 				+ bd_pubdate + ", bd_author=" + bd_author + ", bd_image=" + bd_image + ", bd_about=" + bd_about
 				+ ", bd_price=" + bd_price + ", bd_publisher=" + bd_publisher + ", bd_sellcount=" + bd_sellcount
-				+ ", bd_delflag=" + bd_delflag + ", bd_regdate=" + bd_regdate + ", bk_kind_no=" + bk_kind_no + "]";
+				+ ", bd_delflag=" + bd_delflag + ", bd_regdate=" + bd_regdate + ", bk_kind_no=" + bk_kind_no
+				+ ", bk_kind_info=" + bk_kind_info + "]";
 	}
+	
 }

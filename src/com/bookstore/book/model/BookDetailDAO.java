@@ -27,11 +27,11 @@ public class BookDetailDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		BookDetailVo vo = null;
+		BookDetailVo vo = new BookDetailVo();
 		
 		try {
 			con=pool.getConnection();
-			String sql ="select * from bookdetail where bd_no=?";
+			String sql ="select * from bookdetail bd join bookkind bk on bd.bk_kind_no=bk.bk_kind_no and bd.bd_no=?";
 			ps=con.prepareStatement(sql);
 			ps.setInt(1, no);
 			rs=ps.executeQuery();
@@ -47,7 +47,8 @@ public class BookDetailDAO {
 				vo.setBd_publisher(rs.getString("bd_publisher"));
 				vo.setBd_regdate(rs.getDate("bd_regdate"));
 				vo.setBd_sellcount(rs.getInt("bd_sellcount"));
-				vo.setBd_title(rs.getString("title"));
+				vo.setBd_title(rs.getString("bd_title"));
+				vo.setBk_kind_info(rs.getString("bk_kind_info"));
 			}
 			System.out.println("도서 번호 검색 매개변수 : "+no+"\n\n 검색 결과 : "+vo);
 			return vo;
