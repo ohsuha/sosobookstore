@@ -1,3 +1,6 @@
+<%@page import="com.bookstore.book.model.BookDetailVo"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="com.bookstore.book.model.BookDetailDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -26,17 +29,45 @@
 </head>
 
 <body>
+<%
+	String no=request.getParameter("no");
+	if(no==null || no.isEmpty()){
+		%>
+		<script type="text/javascript">
+			alert('잘못된 url입니다.');
+			location.href='/sosobookstore/06search/bookList.jsp';
+		</script>
+		<%
+		return;
+	}
+	int intNo = Integer.parseInt(no);
+	System.out.print("파라미터로 받은 no:"+intNo);
+	
+	//2
+	BookDetailDAO bookDao=new BookDetailDAO();
+	BookDetailVo vo = null;
+	try{
+		vo = bookDao.selectByNo(intNo);
+	}catch(SQLException e){
+		e.printStackTrace();
+	}
+	
+	//3
+	//[1] 도서 소개 줄임
+	String content = vo.getBd_about();
+	String shortCont = content.substring(0, 120)+"...";
+%>
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="../bs/img/breadcrumb.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>BOOK TITLE</h2>
+                        <h2><%=vo.getBd_title() %></h2>
                         <div class="breadcrumb__option">
                             <a href="./index.html">Home</a>
-                            <a href="./index.html">Category</a>
-                            <span>BOOK TITLE</span>
+                            <a href="./index.html"><%=vo.getBk_kind_info() %></a>
+                            <span>도서 상세</span>
                         </div>
                     </div>
                 </div>
@@ -53,7 +84,7 @@
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
                             <img class="product__details__pic__item--large"
-                                src="../bs/img/product/details/product-details-1.jpg" alt="">
+                                src="<%=vo.getBd_image() %>" alt="">
                         </div>
                         <!-- 여러 이미지 보여주기 썸네일
                         <div class="product__details__pic__slider owl-carousel">
@@ -71,17 +102,12 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__text">
-                        <h3>도서 제목</h3>
+                        <h3><%=vo.getBd_title() %></h3>
                         <div class="product__details__rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-half-o"></i>
-                            <span>(18개의 리뷰가 있습니다.)</span>
+                            <span>18개의 리뷰가 있습니다.</span>
                         </div>
                         <div class="product__details__price">12,600원</div>
-                        <p>도서 간단 설명 4줄 정도가 적당해 보임</p>
+                        <p><%=shortCont%></p>
                         <div class="product__details__quantity">
                             <div class="quantity">
                                 <div class="pro-qty">
@@ -91,10 +117,10 @@
                         </div>
                         <a href="#" class="primary-btn">ADD TO CARD</a>
                         <ul>
-                            <li><b>작가</b> <span>홍길동</span></li>
-                            <li><b>출판사</b> <span>펭귄 북스 </span></li>
-                            <li><b>출판일</b> <span>2018년 7월 12일</span></li>
-                            <li><b>장르</b> <span>문학</span></li>
+                            <li><b>작가</b> <span><%=vo.getBd_author() %></span></li>
+                            <li><b>출판사</b> <span><%=vo.getBd_publisher() %> </span></li>
+                            <li><b>출판일</b> <span><%=vo.getBd_pubdate() %></span></li>
+                            <li><b>장르</b> <span><%=vo.getBk_kind_info() %></span></li>
                         </ul>
                     </div>
                 </div>
@@ -114,41 +140,21 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <div class="product__details__tab__desc">
-                                    <h6>Products Infomation</h6>
-                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Vivamus
-                                        suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam sit amet quam
-                                        vehicula elementum sed sit amet dui. Donec rutrum congue leo eget malesuada.
-                                        Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur arcu erat,
-                                        accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a
-                                        pellentesque nec, egestas non nisi. Vestibulum ac diam sit amet quam vehicula
-                                        elementum sed sit amet dui. Vestibulum ante ipsum primis in faucibus orci luctus
-                                        et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam
-                                        vel, ullamcorper sit amet ligula. Proin eget tortor risus.</p>
-                                        <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
-                                        ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
-                                        elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
-                                        porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
-                                        nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.
-                                        Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Sed
-                                        porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum
-                                        sed sit amet dui. Proin eget tortor risus.</p>
+                                    <h6>도서 소개</h6>
+                                    <p><%=content %></p>
                                 </div>
                             </div>
                             <div class="tab-pane" id="tabs-3" role="tabpanel">
                                 <div class="product__details__tab__desc">
-                                    <h6>Products Infomation</h6>
-                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
-                                        Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
-                                        sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                        eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
-                                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
-                                        sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
-                                        diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-                                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                                        Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
-                                        Proin eget tortor risus.</p>
+                                    <p></p>
+                                    <table>
+                                    	<tr>
+                                    		<th>작성자</th>
+                                    		<th>리뷰 내용</th>
+                                    	</tr>
+                                    	<tr>
+                                    	</tr>
+                                    </table>
                                 </div>
                             </div>
                         </div>
