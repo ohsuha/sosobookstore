@@ -865,11 +865,20 @@ ol {
 }
 
 .featured__item__pic {
-	height: 270px;
+	height: 350px;
 	position: relative;
 	overflow: hidden;
 	background-position: center center;
 }
+
+.featured__item img{
+	max-height: 100%;
+	max-width: 100%;
+	display:block;
+    margin-left:auto;
+    margin-right:auto;
+}
+
 
 .featured__item__pic__hover {
 	position: absolute;
