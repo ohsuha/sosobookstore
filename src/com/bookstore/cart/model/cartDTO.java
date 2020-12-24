@@ -6,9 +6,24 @@ public class cartDTO {
 	private String bu_userid;	// VARCHAR2(20) NOT NULL, /* 아이디 */
 	private int bd_no ;			// NUMBER NOT NULL /* 상품번호 */
 	
+	//bookdetail에서 가져올 변수
+	private String bd_title;
+	private String bd_image;
+	private int bd_price;
+	
 	public cartDTO() {
 		super();
 	}
+	
+	//join
+	public cartDTO(int c_bookqty, String bd_title, String bd_image, int bd_price) {
+		super();
+		this.c_bookqty = c_bookqty;
+		this.bd_title = bd_title;
+		this.bd_image = bd_image;
+		this.bd_price = bd_price;
+	}
+	
 	
 	public cartDTO(int c_no, int c_bookqty, String bu_userid, int bd_no) {
 		super();
@@ -17,6 +32,7 @@ public class cartDTO {
 		this.bu_userid = bu_userid;
 		this.bd_no = bd_no;
 	}
+
 
 
 	public int getC_no() {
@@ -58,11 +74,37 @@ public class cartDTO {
 		this.bd_no = bd_no;
 	}
 
+	
+	
+	public String getBd_title() {
+		return bd_title;
+	}
+
+	public void setBd_title(String bd_title) {
+		this.bd_title = bd_title;
+	}
+
+	public String getBd_image() {
+		return bd_image;
+	}
+
+	public void setBd_image(String bd_image) {
+		this.bd_image = bd_image;
+	}
+
+	public int getBd_price() {
+		return bd_price;
+	}
+
+	public void setBd_price(int bd_price) {
+		this.bd_price = bd_price;
+	}
 
 	@Override
 	public String toString() {
 		return "cartDTO [c_no=" + c_no + ", c_bookqty=" + c_bookqty + ", bu_userid=" + bu_userid + ", bd_no=" + bd_no
-				+ "]";
+				+ ", bd_title=" + bd_title + ", bd_image=" + bd_image + ", bd_price=" + bd_price + "]";
 	}
+
 	
 }
