@@ -7,10 +7,11 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import com.bookstore.db.ConnectionPoolMgr;
+import com.bookstore.db.ConnectionPoolMgr2;
 import com.bookstore.db.ConnectionPoolMgr3;
 
 public class UserDAO {
-	private ConnectionPoolMgr3 pool;
+	private ConnectionPoolMgr pool;
 	
 	public int insertUser(UserVO vo) throws SQLException {
 		Connection con=null;
