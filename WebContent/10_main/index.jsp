@@ -449,7 +449,6 @@
 	                </div>
 	             <%}//for %>
 	             
->>>>>>> refs/heads/develop
             </div>
         </div>
     </section>
