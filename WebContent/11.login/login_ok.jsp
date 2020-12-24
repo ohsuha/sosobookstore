@@ -17,7 +17,7 @@
 	String userid=request.getParameter("userid");
 	String pwd=request.getParameter("password");
 	
-	String msg="로그인 처리 실패", url="/11.login/login.jsp";
+	String msg="로그인 처리 실패", url="11.login/login.jsp";
 	try{
 		System.out.println(userid+"비명"+pwd);
 		int result=userservice.loginCheck(userid, pwd);
@@ -45,5 +45,6 @@
 	String ctxPath = request.getContextPath();
 	url = ctxPath + url;
 %>
+<jsp:forward page="message.jsp"></jsp:forward>
 </body>
 </html>

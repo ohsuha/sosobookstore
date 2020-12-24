@@ -11,7 +11,11 @@ import com.bookstore.db.ConnectionPoolMgr2;
 import com.bookstore.db.ConnectionPoolMgr3;
 
 public class UserDAO {
-	private ConnectionPoolMgr pool;
+	private ConnectionPoolMgr3 pool;
+	
+	public UserDAO() {
+		pool=new ConnectionPoolMgr3();
+	}
 	
 	public int insertUser(UserVO vo) throws SQLException {
 		Connection con=null;
