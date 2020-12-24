@@ -16,7 +16,7 @@ public class CommentDAO {
 		pool=ConnectionPoolMgr.getInstance();
 	}
 	
-	//[1] 도서상세 > 도서리뷰
+	//[1] 도서상세 > 도서리뷰에서 리뷰 리스트 읽어오기
 	public List<CommentDTO> bookReview(int no) throws SQLException{
 		Connection con =null;
 		PreparedStatement ps = null;
@@ -44,6 +44,8 @@ public class CommentDAO {
 			pool.dbClose(rs, ps, con);
 		}
 	}
+	
+	//[2] 도서상세페이지에서 리뷰 작성하기
 	
 	//[2] 마이페이지>도서 리뷰
 }

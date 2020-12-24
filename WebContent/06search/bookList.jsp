@@ -1,3 +1,4 @@
+<%@page import="com.bookstore.cart.model.cartDAO"%>
 <%@page import="com.bookstore.common.PageVo"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="java.util.ArrayList"%>
@@ -7,6 +8,7 @@
 <%@page import="java.util.List"%>
 <%@page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -30,6 +32,29 @@
     <link rel="stylesheet" href="../bs/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../bs/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../bs/css/style.css" type="text/css">
+    
+	<script type="text/javascript" src="../bs/js/jquery-3.5.1.min.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		$('#addCart').click(function(){
+			alert("장바구니에 도서가 담겼습니다.");
+			<%
+				request.setCharacterEncoding("utf-8");
+				String bookNo=request.getParameter("cartNo");
+				if(bookNo!=null && !bookNo.isEmpty()){
+					cartDAO cartDao=new cartDAO();
+					int bdNo=Integer.parseInt(bookNo);
+					try{
+						int cnt = cartDao.insertCart(bdNo);
+						System.out.println("장바구니에 담음 결과 cnt: "+cnt);
+					}catch(SQLException e){
+						e.printStackTrace();
+					}
+				}
+			%>
+		});
+	});
+	</script>
 </head>
 
 <body>
@@ -40,7 +65,6 @@
 //[3] bookList.jsp에서 페이지 번호를 클릭하면 get방식으로 이동
 
 //1.
-request.setCharacterEncoding("utf-8");
 
 String keyword=request.getParameter("searchKeyword");
 String condition=request.getParameter("searchCondition");
@@ -95,13 +119,13 @@ PageVo pageVo = new PageVo(currentPage, list.size(), 9, 5);
                     <div class="hero__categories">
                         <div class="hero__categories__all">
                             <i class="fa fa-bars"></i>
-                            <span>전체</span>
+                            <span id="selectMenu">전체</span>
                         </div>
-                        <ul>
-                            <li><a href="#">문학</a></li>
-                            <li><a href="#">사회과학</a></li>
-                            <li><a href="#">예술</a></li>
-                            <li><a href="#">철학</a></li>
+                        <ul id="selectList">
+                           <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=문학" >문학</a></li>
+                           <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=사회과학">사회과학</a></li>
+                           <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=예술">예술</a></li>
+                           <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=철학">철학</a></li>
                         </ul>
                     </div>
                 </div>
@@ -158,10 +182,10 @@ PageVo pageVo = new PageVo(currentPage, list.size(), 9, 5);
                             <h4>Book field</h4>
                             <ul>
                                 <li><a href="/sosobookstore/06search/bookList.jsp" value="문학">전체</a></li>
-                                <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=문학" value="문학">문학</a></li>
-                                <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=사회과학" value="사회과학">사회과학</a></li>
-                                <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=예술" value="예술">예술</a></li>
-                                <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=철학" value="철학">철학</a></li>
+                                <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=문학" >문학</a></li>
+                                <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=사회과학">사회과학</a></li>
+                                <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=예술">예술</a></li>
+                                <li><a href="/sosobookstore/06search/bookList.jsp?searchCondition=철학">철학</a></li>
                             </ul>
                         </div>
                        
@@ -185,8 +209,8 @@ PageVo pageVo = new PageVo(currentPage, list.size(), 9, 5);
                                                 <span><%=df.format(vo.getBd_price()) %>원</span>
                                             </div>
                                         </a>
-                                        <%}//if
-                                       	}//for%>
+                                        <%}//for
+                                       	}//if%>
                                     </div>
                                 </div>
                             </div>
@@ -235,7 +259,11 @@ PageVo pageVo = new PageVo(currentPage, list.size(), 9, 5);
                             
                                 <div class="product__item__pic set-bg" data-setbg="<%=vo.getBd_image()%>">
                                     <ul class="product__item__pic__hover">
-                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                        <li>
+	                                        <a id="addCart" href="bookList.jsp?currentPage=<%=pageVo.getCurrentPage()%>&searchKeyword=<%=keyword%>&searchCondition=<%=condition%>&cartNo=<%=vo.getBd_no()%>">
+	                                        	<i class="fa fa-shopping-cart"></i>
+	                                        </a>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
