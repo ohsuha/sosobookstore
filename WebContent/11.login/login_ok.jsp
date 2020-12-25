@@ -17,19 +17,19 @@
 	String userid=request.getParameter("userid");
 	String pwd=request.getParameter("password");
 	
-	String msg="로그인 처리 실패", url="11.login/login.jsp";
+	String msg="로그인 처리 실패", url="/11.login/login.jsp";
 	try{
 		System.out.println(userid+"비명"+pwd);
 		int result=userservice.loginCheck(userid, pwd);
 		
 		if(result==UserService.LOGIN_OK){
 	session.setAttribute("userid", userid);
-	UserVO vo=userservice.selectMember(userid);
+	UserVO vo=userservice.selectUser(userid);
 	session.setAttribute("userName", vo.getBu_name());
 	
 	msg=vo.getBu_name() + "님 로그인되었습니다.";
-	url="/html.jsp";//로그인 성공시 메인페이지로 이동
-	
+	url="/10_main/index.jsp";//로그인 성공시 메인페이지로 이동
+	userservice.controllUserInput(userid);
 		}else if(result==UserService.PWD_DISAGREE){
 	msg="비밀번호가 일치하지 않습니다.";
 		}else if(result==UserService.ID_NONE){

@@ -71,7 +71,7 @@ System.out.println("a"+userid+"b"+password);
                     <div class="breadcrumb__text">
                         <h2>로그인</h2>
                         <div class="breadcrumb__option">
-                            <a href="./index.html">메인페이지</a>
+                            <a href="../10_main/index.jsp">메인페이지</a>
                         </div>
                     </div>
                 </div>
