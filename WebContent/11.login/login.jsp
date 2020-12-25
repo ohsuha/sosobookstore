@@ -32,11 +32,6 @@
 		$('#userid').focus();
 		
 		$('form[name=bookLogin]').submit(function(){
-			if('button[name=register]'){
-				alert("회원가입창으로 이동합니다.");
-				event.preventDefault();
-				return false;
-			}else{
 				$('.call').each(function(idx, item){
 					if($(this).val().length<1){
 						alert($(this).prev().text() +"를 입력하세요");
@@ -45,7 +40,6 @@
 						return false;
 					}
 				});
-			}
 		});
 	});
 </script>
@@ -100,8 +94,8 @@ System.out.println("a"+userid+"b"+password);
                                         <p><span>아이디</span><input type="text" name="userid" id="userid" class="call" value="<%=userid%>"></p>
                                         <p><span>비밀번호</span><input type="text" name="password" id="password" class="call" value="<%=password%>"></p>
                                         <button type="submit" class="site-btn" name="booklogin">로그인</button>
-                                        <button type="submit" class="site-btn" name="register" onclick="location='../12.register/register.jsp'")>회원가입</button>
                                         </form>
+                                        <button type="submit" class="site-btn" name="register" onclick="location='../12.register/register.jsp'")>회원가입</button>
                                     </div>
                                 </div>
                             </div>
