@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import com.bookstore.db.ConnectionPoolMgr;
-import com.bookstore.db.ConnectionPoolMgr2;
 import com.bookstore.db.ConnectionPoolMgr3;
 
 public class UserDAO {
@@ -27,8 +26,8 @@ public class UserDAO {
 			
 			//3
 			String sql="insert into bookuser(bu_userid, bu_name, bu_password, bu_zipcode,"
-					+ " bu_address1, bu_address2, bu_hp, bu_regdate, bu_secdate, bu_authority)" + 
-					"values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ " bu_address1, bu_address2, bu_hp, bu_regdate, bu_authority)" + 
+					"values(?, ?, ?, ?, ?, ?, ?, sysdate, 0)";
 			ps=con.prepareStatement(sql);
 			
 			ps.setString(1, vo.getBu_userid());
@@ -38,9 +37,6 @@ public class UserDAO {
 			ps.setString(5, vo.getBu_address1());
 			ps.setString(6, vo.getBu_address2());
 			ps.setString(7, vo.getBu_hp());
-			ps.setTimestamp(8, vo.getBu_regdate());
-			ps.setTimestamp(9, vo.getBu_secdate());
-			ps.setInt(10, vo.getBu_authority());
 			
 			//4
 			int cnt=ps.executeUpdate();
@@ -59,6 +55,7 @@ public class UserDAO {
 		
 		int result=0;
 		try {
+			System.out.println("둠둠");
 			con=pool.getConnection();
 			
 			String sql="select count(*) from bookuser" + 
