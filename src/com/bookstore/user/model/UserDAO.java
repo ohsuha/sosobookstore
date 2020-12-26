@@ -11,6 +11,10 @@ import com.bookstore.db.ConnectionPoolMgr;
 public class UserDAO {
 	private ConnectionPoolMgr pool;
 	
+	UserDAO(){
+		pool=ConnectionPoolMgr.getInstance();
+	}
+	
 	public int insertUser(UserVO vo) throws SQLException {
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -79,6 +83,7 @@ public class UserDAO {
 		}
 	}
 	
+	//로그인
 	public int loginCheck(String userid, String pwd) throws SQLException {
 		Connection con=null;
 		PreparedStatement ps=null;

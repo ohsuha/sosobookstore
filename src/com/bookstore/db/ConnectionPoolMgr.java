@@ -68,7 +68,7 @@ public class ConnectionPoolMgr {
          Boolean b=hmap.get(con);//value값   
          //만약 쉬고있는 컨넥션이라면 일하는 컨넥션으로 표시해주고 반환한다.   
          if(b==Boolean.FALSE){   
-            hmap.put(con, Boolean.TRUE);//일한다고 표시      
+            hmap.put(con, Boolean.TRUE);//일한다고 표시
             return con; //일하러 나감   
          }//if   
       }//while
@@ -79,6 +79,7 @@ public class ConnectionPoolMgr {
          hmap.put(con2, Boolean.FALSE);   
       }//for
       
+      System.out.println("getConnection성공");
       return getConnection();//재귀호출
    }
    
@@ -139,8 +140,7 @@ public class ConnectionPoolMgr {
       if(con!=null)returnConnection(con); //반남 하는 것임
    }
    
-   public void dbClose(ResultSet rs,  PreparedStatement ps,  
-         Connection con) throws SQLException{
+   public void dbClose(ResultSet rs, PreparedStatement ps, Connection con) throws SQLException{
       if(rs!=null)rs.close();
       if(ps!=null) ps.close();
       if(con!=null)returnConnection(con);            

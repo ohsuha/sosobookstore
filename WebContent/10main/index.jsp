@@ -43,6 +43,9 @@
 	
 	DecimalFormat df=new DecimalFormat("#,###");
 	
+	//로그인 세션값 불러오는지 테스트
+	String userid=(String)session.getAttribute("userid");
+	System.out.println(userid);
 %>
 
 <body>
