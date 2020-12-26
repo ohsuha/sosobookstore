@@ -1,3 +1,4 @@
+<%@page import="com.bookstore.cart.model.cartDAO"%>
 <%@page import="java.util.List"%>
 <%@page import="com.bookstore.comment.model.CommentDTO"%>
 <%@page import="com.bookstore.comment.model.CommentDAO"%>
@@ -36,7 +37,33 @@
 	type="text/css">
 <link rel="stylesheet" href="../bs/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="../bs/css/style.css" type="text/css">
+<script type="text/javascript" src="../bs/js/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var qty = $('.pro-qty input').val() * 1;
+		console.log(qty);
+		
+		$('.pro-qty .dec').click(function(){
+		  if(qty === 1){
+		    alert("0개 이상의 수량을 입력해주세요.");
+		    console.log(qty);
+		  } else {
+		    $('.pro-qty input').val(qty);
+		    qty -= 1;
+		    console.log(qty);
+		    $('#bookQty').val(qty);
+		  }
+		});
 
+		$('.pro-qty .inc').click(function(){
+		    $('.pro-qty input').val(qty);
+		    qty += 1;
+		    console.log(qty);
+		    $('#bookQty').val(qty);
+		})
+
+	});
+</script>
 
 </head>
 <body>
@@ -54,9 +81,9 @@
 	int intNo = Integer.parseInt(no);
 	System.out.print("파라미터로 받은 no:"+intNo);
 	
-	//2
+	//2-1
 	//[[도서 정보 가져오기]]
-	BookDetailDAO bookDao=new BookDetailDAO();
+	BookDetailDAO bookDao = new BookDetailDAO();
 	BookDetailVo vo = null;
 	try{
 		vo = bookDao.selectByNo(intNo);
@@ -130,16 +157,24 @@
 						<div class="product__details__rating">
 							<span><%=comCnt %>개의 리뷰가 있습니다.</span>
 						</div>
-						<div class="product__details__price">12,600원</div>
-						<p><%=shortCont%></p>
-						<div class="product__details__quantity">
-							<div class="quantity">
-								<div class="pro-qty">
-									<input type="text" value="1">
+							<div class="product__details__price">12,600원</div>
+							<p><%=shortCont%></p>
+						
+						<!-- 장바구니 담기 -->
+						<form name="addCart" action="addCart_ok.jsp" method="post">
+							<div class="product__details__quantity">
+								<div class="quantity">
+									<div class="pro-qty">
+										<input type="text" value="1"> 
+									</div>
 								</div>
 							</div>
-						</div>
-						<a href="#" class="primary-btn">ADD TO CARD</a>
+							<input type="hidden" value="1" id="bookQty" name="bookQty">
+							<input type="hidden" value="<%=vo.getBd_no() %>" id="bookNo" name="bookNo">
+							<input type="submit" value="ADD TO CARD">
+						</form>
+						<!-- 장바구니 담기 완료 -->
+						
 						<ul>
 							<li><b>작가</b> <span><%=vo.getBd_author() %></span></li>
 							<li><b>출판사</b> <span><%=vo.getBd_publisher() %> </span></li>
@@ -208,7 +243,7 @@
 													</tbody>
 												</table>
 												
-												
+												<!-- 리뷰 작성하기 -->
 												<div class="contact-form spad">
 											        <div class="container">
 											            <div class="row">
@@ -221,15 +256,14 @@
 											            <form action="#" name="riviewFrm" method="post" >
 											                <div class="row">
 											                    <div class="col-lg-12 text-center">
-											                        <textarea placeholder="최대 1000자 까지 가능합니다."></textarea>
+											                    	<input type="text" value="<%=vo.getBd_no()%>" name="bdNoForRivew">
+											                        <textarea placeholder="최대 1000자 까지 가능합니다." name="rivewCont"></textarea>
 											                        <button type="submit" class="site-btn">리뷰 등록하기</button>
 											                    </div>
 											                </div>
 											            </form>
 											        </div>
 											    </div>
-												
-												
 											</div>
 										</div>
 									</div>
@@ -242,53 +276,10 @@
 		</div>
 	</section>
 	<!-- Product Details Section End -->
-
-	<!-- Related Product Section Begin -->
-	<!-- 관련 상품
-    <section class="related-product">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title related__product__title">
-                        <h2>Related Product</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-            
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-1.jpg">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div> -->
-	<!-- 예시 멀쩡한 거
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-             	 -->
+	
 	</div>
 	</div>
 	</section>
-	<!-- Related Product Section End -->
-
 	<!-- Js Plugins -->
 	<script src="../bs/js/jquery-3.3.1.min.js"></script>
 	<script src="../bs/js/bootstrap.min.js"></script>
