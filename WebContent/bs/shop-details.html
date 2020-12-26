@@ -21,6 +21,35 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    
+    <script type="text/javascript" src="../bs/js/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var qty = $('.pro-qty input').val() * 1;
+
+		$('.pro-qty .dec').click(function(){
+		  if(qty === 1){
+		    alert("0개 이상의 수량을 입력해주세요.");
+		  } else {
+		    qty = qty - 1;
+		    $('.pro-qty input').val(qty);
+		  }
+		});
+
+		$('.pro-qty .inc').click(function(){
+		    qty = qty + 1;
+		    $('.pro-qty input').val(qty);
+		})
+
+		$('.primary-btn').click(function(){
+		  if(qty!==0){
+		    alert("장바구니에 도서가"+qty+"개 담겼습니다.");
+		  }else{
+		    alert("0개 이상의 수량을 입력해주세요.");
+		  }
+		});
+	});
+</script>
 </head>
 
 <body>
