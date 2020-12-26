@@ -59,13 +59,7 @@
 
 <body>
 <%
-////////도서 리스트 보여주기///////
-//[1] main 에서 shop 클릭하면 get방식으로 이동 
-//[2] bookList.jsp에서 검색 버튼 클릭하면 post방식으로 submit
-//[3] bookList.jsp에서 페이지 번호를 클릭하면 get방식으로 이동
-
-//1.
-
+request.setCharacterEncoding("utf-8");
 String keyword=request.getParameter("searchKeyword");
 String condition=request.getParameter("searchCondition");
 
