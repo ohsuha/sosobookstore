@@ -23,10 +23,13 @@
     <link rel="stylesheet" href="../bs/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../bs/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../bs/css/style.css" type="text/css">
+    <jsp:useBean id="memberVo" class="com.bookstore.user.model.UserVO" scope="session"></jsp:useBean>
 </head>
 
 <body>
- 
+ <%
+ 	
+ %>
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="../bs/img/breadcrumb.jpg">
         <div class="container">

@@ -46,6 +46,26 @@ public class CommentDAO {
 	}
 	
 	//[2] 도서상세페이지에서 리뷰 작성하기
+	//insert into salecomment(c_no, bd_no, bu_userid, sc_about, sc_regdate)	values(salecomment_seq.nextval, 4, 'testuser', '으아아아아', sysdate)
+	
+	public int insertReview(int bookNo, String userId, String content) throws SQLException {
+		Connection con =null;
+		PreparedStatement ps = null;
+		try {
+			con=pool.getConnection();
+			String sql = "insert into salecomment(c_no, bd_no, bu_userid, sc_about, sc_regdate) "
+					     + " values(salecomment_seq.nextval, ?, ?, ?, sysdate)";
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, bookNo);
+			ps.setNString(2, userId);
+			ps.setString(3, content);
+			
+			int cnt = ps.executeUpdate();
+			return cnt;
+		}finally {
+			pool.dbClose(ps, con);
+		}
+	}
 	
 	//[2] 마이페이지>도서 리뷰
 }

@@ -11,6 +11,7 @@
 </head>
 <body>
 <jsp:useBean id="userservice" class="com.bookstore.user.model.UserService" scope="session"></jsp:useBean>
+<jsp:useBean id="userVO" class="com.bookstore.user.model.UserVO" scope="session"></jsp:useBean>
 	<%
 	request.setCharacterEncoding("utf-8");
 	String userid = request.getParameter("userid");
@@ -23,10 +24,10 @@
 
 		if (result == UserService.LOGIN_OK) {
 			session.setAttribute("userid", userid);
-			UserVO vo = userservice.selectMember(userid);
-			session.setAttribute("userName", vo.getBu_name());
+			userVO = userservice.selectMember(userid);
+			session.setAttribute("userName", userVO.getBu_name());
 
-			msg = vo.getBu_name() + "님 로그인되었습니다.";
+			msg = userVO.getBu_name() + "님 로그인되었습니다.";
 			url = "/10main/index.jsp";//로그인 성공시 메인페이지로 이동
 
 		} else if (result == UserService.PWD_DISAGREE) {

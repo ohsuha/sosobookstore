@@ -17,16 +17,17 @@ public class cartDAO {
 	}
 	
 	//리스트 페이지에서 장바구니에 담기
-	public int insertCart(int bookNo) throws SQLException {
+	public int insertCart(int bookNo, String userId) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps =null;
 		
 		try {
 			con=pool.getConnection();
 			String sql="insert into cart(c_no, bu_userid, bd_no)\r\n" + 
-					"values(cart_seq.nextval,'testuser',?)";
+					"values(cart_seq.nextval,?,?)";
 			ps=con.prepareStatement(sql);
-			ps.setInt(1, bookNo);
+			ps.setString(1, userId);
+			ps.setInt(2, bookNo);
 			int cnt=ps.executeUpdate();
 			return cnt;
 		}finally {
@@ -67,17 +68,18 @@ public class cartDAO {
 	}
 	
 	//도서 상세 페이지에서 장바구니 담기
-	public int insertCartDetail(int bookNo, int bookQty) throws SQLException {
+	public int insertCartDetail(int bookNo, int bookQty, String userId) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps =null;
 		
 		try {
 			con=pool.getConnection();
 			String sql="insert into cart(c_no, C_BOOKQTY, bu_userid, bd_no)\r\n" + 
-					"values(cart_seq.nextval, ?,'testuser',?)";
+					"values(cart_seq.nextval, ?, ? ,?)";
 			ps=con.prepareStatement(sql);
 			ps.setInt(1, bookQty);
-			ps.setInt(2, bookNo);
+			ps.setString(2, userId);
+			ps.setInt(3, bookNo);
 			int cnt=ps.executeUpdate();
 			return cnt;
 		}finally {

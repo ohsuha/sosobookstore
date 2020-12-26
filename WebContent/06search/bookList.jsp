@@ -37,20 +37,23 @@
 	<script type="text/javascript">
 	$(function(){
 		$('#addCart').click(function(){
-			alert("장바구니에 도서가 담겼습니다.");
+			alert("장바구니에 책이 담겼습니다.");
 			<%
 				request.setCharacterEncoding("utf-8");
 				String bookNo=request.getParameter("cartNo");
-				if(bookNo!=null && !bookNo.isEmpty()){
-					cartDAO cartDao=new cartDAO();
-					int bdNo=Integer.parseInt(bookNo);
-					try{
-						int cnt = cartDao.insertCart(bdNo);
-						System.out.println("장바구니에 담음 결과 cnt: "+cnt);
-					}catch(SQLException e){
-						e.printStackTrace();
+				String userId=(String)session.getAttribute("userid");
+				System.out.println("로그인 한 유저아이디"+userId);
+
+					if(bookNo!=null && !bookNo.isEmpty()){
+						cartDAO cartDao=new cartDAO();
+						int bdNo=Integer.parseInt(bookNo);
+						try{
+							int cnt = cartDao.insertCart(bdNo,userId);
+							System.out.println("장바구니에 담음 결과 cnt: "+cnt);
+						}catch(SQLException e){
+							e.printStackTrace();
+						}
 					}
-				}
 			%>
 		});
 	});

@@ -60,7 +60,17 @@
 		    qty += 1;
 		    console.log(qty);
 		    $('#bookQty').val(qty);
-		})
+		});
+		
+		$('form[name=riviewFrm]').submit(function(){
+			if(!$('#reviewContainer').val()){
+				alert("내용을 입력해주세요.");
+				event.preventDefault();
+			}else if($('#reviewContainer').val().length>1000){
+				alert("1000자 이하의 내용만 등록 가능합니다.");
+				event.preventDefault();
+			}
+		});
 
 	});
 </script>
@@ -135,20 +145,8 @@
 					<div class="product__details__pic">
 						<div class="product__details__pic__item">
 							<img class="product__details__pic__item--large"
-								src="<%=vo.getBd_image() %>" alt="">
+								src="<%=vo.getBd_image() %>" alt="도서 이미지">
 						</div>
-						<!-- 여러 이미지 보여주기 썸네일
-                        <div class="product__details__pic__slider owl-carousel">
-                            <img data-imgbigurl="../bs/img/product/details/product-details-2.jpg"
-                                src="../bs/img/product/details/thumb-1.jpg" alt="">
-                            <img data-imgbigurl="../bs/img/product/details/product-details-3.jpg"
-                                src="../bs/img/product/details/thumb-2.jpg" alt="">
-                            <img data-imgbigurl="../bs/img/product/details/product-details-5.jpg"
-                                src="../bs/img/product/details/thumb-3.jpg" alt="">
-                            <img data-imgbigurl="../bs/img/product/details/product-details-4.jpg"
-                                src="../bs/img/product/details/thumb-4.jpg" alt="">
-                        </div>
-                         -->
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-6">
@@ -253,11 +251,11 @@
 											                    </div>
 											                </div>
 											            </div>
-											            <form action="#" name="riviewFrm" method="post" >
+											            <form action="addCommentDetail_ok.jsp" name="riviewFrm" method="post" >
 											                <div class="row">
 											                    <div class="col-lg-12 text-center">
-											                    	<input type="text" value="<%=vo.getBd_no()%>" name="bdNoForRivew">
-											                        <textarea placeholder="최대 1000자 까지 가능합니다." name="rivewCont"></textarea>
+											                    	<input type="hidden" value="<%=vo.getBd_no()%>" name="bdNoForRivew">
+											                        <textarea placeholder="최대 1000자 까지 가능합니다." name="rivewCont" id="reviewContainer"></textarea>
 											                        <button type="submit" class="site-btn">리뷰 등록하기</button>
 											                    </div>
 											                </div>
