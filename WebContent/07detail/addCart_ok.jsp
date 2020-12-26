@@ -32,7 +32,7 @@
 			</script>
 		<%}else{%>
 			<script type="text/javascript">
-				alert("장바구니 담기 실패!");
+				alert("장바구니 담기 실패");
 				location.href="/sosobookstore/07detail/bookDetail.jsp?no=<%=bookNo%>";
 			</script>
 		<%}
