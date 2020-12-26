@@ -14,7 +14,7 @@ public class UserService {
 		
 	private UserDAO userDao;
 	
-	private UserVO cuserVo;
+	private static UserVO cuserVo;
 	
 	public UserService() {
 		userDao=new UserDAO();
