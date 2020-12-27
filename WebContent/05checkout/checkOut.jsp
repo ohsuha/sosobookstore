@@ -15,6 +15,8 @@
 			price = price.replace(",","");
 			sum += price*1;
 		});
+		
+		$('#totalPrice').val(sum);
 		$('#total').html(numberWithCommas(sum)+"원");
 		
 		$('form[name=orderFrm]').submit(function(){
@@ -50,17 +52,14 @@
 	}
 	</script>
 </head>
-
-<!-- <jsp:useBean id="memberVo" class="com.bookstore.user.model.UserVO" scope="session"></jsp:useBean> --> 
 <body>
 <jsp:useBean id="cartDao" class="com.bookstore.cart.model.cartDAO" scope="session"/>
  <%
  request.setCharacterEncoding("utf-8");
- //유저아이디 바꾸기
- String bu_userid = "testuser";
+
  List<cartDTO> list = new ArrayList<cartDTO>();
  try{
-	 list = cartDao.showCart(bu_userid);
+	 list = cartDao.showCart(userid);
 	 System.out.println("장바구니에 담긴 갯수"+list.size());
  }catch(SQLException e){
 	e.printStackTrace();
@@ -139,6 +138,7 @@
                                     <div class="checkout__input">
                                         <p>Email<span>*</span></p>
                                         <input type="text" placeholder="Example@abc.com" name="email" id="email">
+                                        <input type="text" name="totalPrice" id="totalPrice">
                                     </div>
                                 </div>
                             </div>

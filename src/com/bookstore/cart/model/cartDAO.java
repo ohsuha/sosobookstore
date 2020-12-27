@@ -16,7 +16,7 @@ public class cartDAO {
 		pool=ConnectionPoolMgr.getInstance();
 	}
 	
-	//리스트 페이지에서 장바구니에 담기
+	/*//리스트 페이지에서 장바구니에 담기
 	public int insertCart(int bookNo, String userId) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps =null;
@@ -33,7 +33,7 @@ public class cartDAO {
 		}finally {
 			pool.dbClose(ps, con);
 		}
-	}
+	}*/
 	
 	//사용자 아이디로 장바구니 내역 보여주기
 	public List<cartDTO> showCart(String bu_userid) throws SQLException{
@@ -45,7 +45,7 @@ public class cartDAO {
 		try {
 			con = pool.getConnection();
 			
-			String sql = "select c_bookqty, bd_title, bd_image, bd_price" + 
+			String sql = "select c_no, c_bookqty, c.bd_no, bd_title, bd_image, bd_price" + 
 					" from cart c join bookdetail b" + 
 					" on c.bd_no = b.bd_no" +
 					" and bu_userid=?";
@@ -55,7 +55,9 @@ public class cartDAO {
 			rs= ps.executeQuery();
 			while(rs.next()) {
 				cartDTO dto = new cartDTO();
+				dto.setC_no(rs.getInt("c_no"));
 				dto.setC_bookqty(rs.getInt("c_bookqty"));
+				dto.setBd_no(rs.getInt("bd_no"));
 				dto.setBd_title(rs.getString("bd_title"));
 				dto.setBd_price(rs.getInt("bd_price"));
 				dto.setBd_image(rs.getString("bd_image"));
@@ -89,29 +91,29 @@ public class cartDAO {
 	}
 	
 	//장바구니에서 상품 삭제하기
-	public int deleteCartByNo(int c_no) throws SQLException {
-		Connection con=null;
-		PreparedStatement ps=null;
-		
-		try {
-			//1,2
-			con=pool.getConnection();
+		public int deleteCartByNo(int c_no) throws SQLException {
+			Connection con=null;
+			PreparedStatement ps=null;
 			
-			//3
-			String sql="delete from cart" + 
-					" where c_no = ?";
-			ps=con.prepareStatement(sql);
-			ps.setInt(1, c_no);
-			
-			//4
-			int cnt=ps.executeUpdate();
-			System.out.println("장바구니 상품 삭제 결과, cnt="+cnt+", 매개변수 c_no="+c_no);
-			
-			return cnt;
-		}finally {
-			pool.dbClose(ps, con);
+			try {
+				//1,2
+				con=pool.getConnection();
+				
+				//3
+				String sql="delete from cart" + 
+						" where c_no = ?";
+				ps=con.prepareStatement(sql);
+				ps.setInt(1, c_no);
+				
+				//4
+				int cnt=ps.executeUpdate();
+				System.out.println("장바구니 상품 삭제 결과, cnt="+cnt+", 매개변수 c_no="+c_no);
+				
+				return cnt;
+			}finally {
+				pool.dbClose(ps, con);
+			}
 		}
-	}
 	
 	//장바구니 전체 삭제 
 		public int deleteCartAll(String bu_userid) throws SQLException {

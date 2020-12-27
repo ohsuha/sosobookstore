@@ -168,14 +168,14 @@ public class UserDAO {
 			con=pool.getConnection();
 			
 			String sql="update bookuser" + 
-					" set bu_zipcode=?, bu_address1=?, bu_address2=?, bu_hp=?,"
-					 + " where bu_userid=?";
+					" set bu_hp=?, bu_zipcode=?, bu_address1=?, bu_address2=?" + 
+					" where bu_userid= ?";
 			
 			ps=con.prepareStatement(sql);
-			ps.setString(1, vo.getBu_zipcode());
-			ps.setString(2, vo.getBu_address1());
-			ps.setString(3, vo.getBu_address2());
-			ps.setString(4, vo.getBu_hp());
+			ps.setString(1, vo.getBu_hp());
+			ps.setString(2, vo.getBu_zipcode());
+			ps.setString(3, vo.getBu_address1());
+			ps.setString(4, vo.getBu_address2());
 			ps.setString(5, vo.getBu_userid());
 			
 			int cnt=ps.executeUpdate();

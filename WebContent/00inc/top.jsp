@@ -38,9 +38,11 @@
 	String userid=(String)session.getAttribute("userid");
 	String username=(String)session.getAttribute("userName");
 	System.out.println("session에 남아있는 로그인 아이디 : "+userid+", 회원 이름 : "+username);
-	if(userid!=null && userid.isEmpty()){
+	if(userid!=null && !userid.isEmpty()){
 		isLogin=true; //로그인 된 경우에 true
 	}
+	
+	System.out.println("로그인 여부 isLogin="+isLogin);
 %>
 
 <body>
@@ -54,7 +56,7 @@
                         <div class="header__top__left">
                             <ul>
                             <%if(isLogin){ %>
-                                <li><%=userid %>님 환영합니다</li>
+                                <li><%=username %>님 환영합니다.</li>
                             <%} %>
                             </ul>
                         </div>
@@ -64,10 +66,11 @@
 							<div class="header__top__right__auth">
 							<%if(isLogin){ %>
 								<!-- 로그아웃 처리하는 페이지도 만들어주세요. -->
-                                <a href="#"> 로그아웃 </a>
-							<%}%>
-                                <a href="../02login/login.jsp"> 로그인 </a>
+                                <a href="../02login/logout.jsp"> 로그아웃 </a>
                                 <a href="../03mypage/mypage.jsp"> 마이페이지 </a>
+							<%}else{%>
+                                <a href="../02login/login.jsp"> 로그인 </a>
+							<%} %>
                                 <a href="../04cart/cart.jsp"> 장바구니 </a>
                             </div>
                         </div>
