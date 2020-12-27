@@ -18,7 +18,7 @@ $(function(){
 	});
 	
 	$('#btnZipcode').click(function(){
-		open("../zipcode/zipcode.jsp", "chk",
+		open("../09common/zipcode.jsp", "chk",
 "width=500,height=500,left=0,top=0,location=yes,resizable=yes");
 	});
 });

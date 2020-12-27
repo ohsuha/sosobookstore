@@ -10,6 +10,9 @@ public class CommentDTO {
 	Date sc_regdate; // DATE /* 작성일 */
 	//table join으로 가져오는 책이름 변수
 	String bd_title; //책 이름
+	String bd_img;	//책 이미지
+	String bd_author;	//작가
+	String bd_price;	//책 가격
 	
 	public CommentDTO() {
 		super();
@@ -23,6 +26,20 @@ public class CommentDTO {
 		this.sc_about = sc_about;
 		this.sc_regdate = sc_regdate;
 		this.bd_title = bd_title;
+	}
+	
+	public CommentDTO(int c_no, int bd_no, String bu_userid, String sc_about, Date sc_regdate, String bd_title,
+			String bd_img, String bd_author, String bd_price) {
+		super();
+		this.c_no = c_no;
+		this.bd_no = bd_no;
+		this.bu_userid = bu_userid;
+		this.sc_about = sc_about;
+		this.sc_regdate = sc_regdate;
+		this.bd_title = bd_title;
+		this.bd_img = bd_img;
+		this.bd_author = bd_author;
+		this.bd_price = bd_price;
 	}
 
 	public int getC_no() {
@@ -72,9 +89,37 @@ public class CommentDTO {
 		this.bd_title = bd_title;
 	}
 
+	
+	public String getBd_img() {
+		return bd_img;
+	}
+
+	public void setBd_img(String bd_img) {
+		this.bd_img = bd_img;
+	}
+
+	public String getBd_author() {
+		return bd_author;
+	}
+
+	public void setBd_author(String bd_author) {
+		this.bd_author = bd_author;
+	}
+
+	public String getBd_price() {
+		return bd_price;
+	}
+
+	public void setBd_price(String bd_price) {
+		this.bd_price = bd_price;
+	}
+
 	@Override
 	public String toString() {
 		return "CommentDTO [c_no=" + c_no + ", bd_no=" + bd_no + ", bu_userid=" + bu_userid + ", sc_about=" + sc_about
-				+ ", sc_regdate=" + sc_regdate + ", bd_title=" + bd_title + "]";
+				+ ", sc_regdate=" + sc_regdate + ", bd_title=" + bd_title + ", bd_img=" + bd_img + ", bd_author="
+				+ bd_author + ", bd_price=" + bd_price + "]";
 	}
+
+	
 }

@@ -1,0 +1,109 @@
+<%@page import="com.bookstore.cart.model.cartDAO"%>
+<%@page import="com.bookstore.book.model.BookDetailVo"%>
+<%@page import="com.bookstore.book.model.BookDetailDAO"%>
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ogani Template">
+    <meta name="keywords" content="Ogani, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>sosoBookstore | 소소책방</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="../bs/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../bs/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../bs/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../bs/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="../bs/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="../bs/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../bs/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../bs/css/style.css" type="text/css">
+    <script type="text/javascript" src="../bs/js/jquery-3.5.1.min.js"></script>
+
+</head>
+
+<%
+	boolean isLogin=false;
+	String userid=(String)session.getAttribute("userid");
+	String username=(String)session.getAttribute("userName");
+	System.out.println("session에 남아있는 로그인 아이디 : "+userid+", 회원 이름 : "+username);
+	if(userid!=null && userid.isEmpty()){
+		isLogin=true; //로그인 된 경우에 true
+	}
+%>
+
+<body>
+   
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="header__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__left">
+                            <ul>
+                            <%if(isLogin){ %>
+                                <li><%=userid %>님 환영합니다</li>
+                            <%} %>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__right">
+							<div class="header__top__right__auth">
+							<%if(isLogin){ %>
+								<!-- 로그아웃 처리하는 페이지도 만들어주세요. -->
+                                <a href="#"> 로그아웃 </a>
+							<%}%>
+                                <a href="../02login/login.jsp"> 로그인 </a>
+                                <a href="../03mypage/mypage.jsp"> 마이페이지 </a>
+                                <a href="../04cart/cart.jsp"> 장바구니 </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="header__logo">
+                        <a href="../10main/index.jsp"><img src="../bs/img/logo.png" alt="logo"></a>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <nav class="header__menu">
+                        <ul>
+                        	<!-- active효과 각 페이지 선택했을때만 줄것 -->
+                            <li class="active"><a href="../10main/index.jsp">Home</a></li>
+                            <li><a href="../06search/bookList.jsp">Shop</a></li>
+                            <li><a href="#">Community</a>
+                                <ul class="header__menu__dropdown">
+                                    <li><a href="#">Notice</a></li>
+                                    <li><a href="#">Q&A</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="humberger__open">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+        
+    
+    </header>
+    <!-- Header Section End -->

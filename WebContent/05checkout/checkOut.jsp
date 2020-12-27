@@ -1,34 +1,70 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="com.bookstore.cart.model.cartDTO"%>
+<%@page import="java.util.List"%>
+<%@page import="java.sql.SQLException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="zxx">
+<%@ include file="../00inc/top.jsp"%>
+<%@ include file="../00inc/search.jsp"%>
+	<script type="text/javascript">
+	$(function(){
+		var sum=0;
+		$('.price').each(function(idx,item){
+			var price = $(this).html();
+			price = price.replace(",","");
+			sum += price*1;
+		});
+		$('#total').html(numberWithCommas(sum)+"원");
+		
+		$('form[name=orderFrm]').submit(function(){
+			if($('#name').val()==''){ //empty체크1
+				alert('이름을 입력하세요.');
+				$('#name').focus();
+				event.preventDefault();
+			}else if($('#zipcode').val()==''){ //empty체크1
+				alert('우편번호를 입력하세요.');
+				event.preventDefault();
+			}else if($('#address1').val()==''){ //empty체크1
+			alert('주소를 입력하세요.');
+			$('#address1').focus();
+			event.preventDefault();
+			}else if($('#address2').val()==''){ //empty체크1
+				alert('상세 주소를 입력하세요.');
+				$('#address2').focus();
+				event.preventDefault();
+			}else if($('#hp').val()==''){ //empty체크1
+				alert('연락처를 입력하세요.');
+				$('#hp').focus();
+				event.preventDefault();
+			}else if($('#email').val()==''){ //empty체크1
+				alert('이메일을 입력하세요.');
+				$('#email').focus();
+				event.preventDefault();
+			}
+		});
+	});
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Ogani Template">
-    <meta name="keywords" content="Ogani, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ogani | Template</title>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="../bs/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../bs/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../bs/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../bs/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="../bs/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="../bs/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../bs/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../bs/css/style.css" type="text/css">
-    <jsp:useBean id="memberVo" class="com.bookstore.user.model.UserVO" scope="session"></jsp:useBean>
+	function numberWithCommas(sum) {
+	    return sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	</script>
 </head>
 
+<!-- <jsp:useBean id="memberVo" class="com.bookstore.user.model.UserVO" scope="session"></jsp:useBean> --> 
 <body>
+<jsp:useBean id="cartDao" class="com.bookstore.cart.model.cartDAO" scope="session"/>
  <%
- 	
+ request.setCharacterEncoding("utf-8");
+ //유저아이디 바꾸기
+ String bu_userid = "testuser";
+ List<cartDTO> list = new ArrayList<cartDTO>();
+ try{
+	 list = cartDao.showCart(bu_userid);
+	 System.out.println("장바구니에 담긴 갯수"+list.size());
+ }catch(SQLException e){
+	e.printStackTrace();
+ }
  %>
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="../bs/img/breadcrumb.jpg">
@@ -53,7 +89,7 @@
         <div class="container">
             <div class="checkout__form">
                 <h4>주문 정보 입력</h4>
-                <form action="#" name="" method="post">
+                <form action="checkOut_ok.jsp" name="orderFrm" method="post">
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
                             <div class="row">
@@ -69,7 +105,7 @@
                                 <div class="col-lg-12">
                                     <div class="checkout__input">
                                         <p>이름<span>*</span></p>
-                                        <input type="text">
+                                        <input type="text" id="name" name="name">
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +113,7 @@
                                 <div class="col-lg-6">
 		                            <div class="checkout__input">
 		                                <p>우편번호<span>*</span></p>
-		                                <input type="text" placeholder="우편번호 검색">
+		                                <input type="text" placeholder="우편번호 검색" id="zipcode" name="zipcode">
 		                            </div>
 	                            </div>
 	                            <div class="col-lg-6">
@@ -89,20 +125,20 @@
                             </div>
                             <div class="checkout__input">
 	                                <p>주소<span>*</span></p>
-	                                <input type="text" placeholder="시/도/구/군" class="checkout__input__add">
-	                                <input type="text" placeholder="상세 주소 입력">
+	                                <input type="text" placeholder="시/도/구/군" class="checkout__input__add" name="address1" id="address1">
+	                                <input type="text" placeholder="상세 주소 입력" name="address2" id="address2">
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>전화번호<span>*</span></p>
-                                        <input type="text" placeholder="010-1234-1234">
+                                        <input type="text" placeholder="010-1234-1234" name="hp" id="hp">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Email<span>*</span></p>
-                                        <input type="text" placeholder="Example@abc.com">
+                                        <input type="text" placeholder="Example@abc.com" name="email" id="email">
                                     </div>
                                 </div>
                             </div>
@@ -113,11 +149,14 @@
                                 <div class="checkout__order__products">상품명 <span>합계</span></div>
                                 <!-- 장바구니 리스트 보여주기! 반복! -->
                                 <ul>
-                                    <li>Vegetable’s Package <span>$75.99</span></li>
-                                    <li>Fresh Vegetable <span>$151.99</span></li>
-                                    <li>Organic Bananas <span>$53.99</span></li>
+                                <% if(list!=null && !list.isEmpty()){
+                                	for(int i=0; i<list.size(); i++){
+                                		cartDTO dto = list.get(i);
+                                	%><li><%=dto.getBd_title() %> <span class="price"><%=df.format(dto.getBd_price()) %></span> </li>
+                                	<%}//for
+                                	}//if%>
                                 </ul>
-                                <div class="checkout__order__subtotal">합계 <span>$750.99</span></div>
+                                <div class="checkout__order__subtotal">합계 <span id="total"></span></div>
                                 <p>주문해주셔서 감사합니다. 배송은 배송사에 따라 다르며 3~5일이 소요 됩니다. 즐거운 하루 되세요.	</p>
                                 <button type="submit" class="site-btn">주문하기</button>
                             </div>
@@ -129,18 +168,9 @@
     </section>
     <!-- Checkout Section End -->
 
-    <!-- Js Plugins -->
-    <script src="../bs/js/jquery-3.3.1.min.js"></script>
-    <script src="../bs/js/bootstrap.min.js"></script>
-    <script src="../bs/js/jquery.nice-select.min.js"></script>
-    <script src="../bs/js/jquery-ui.min.js"></script>
-    <script src="../bs/js/jquery.slicknav.js"></script>
-    <script src="../bs/js/mixitup.min.js"></script>
-    <script src="../bs/js/owl.carousel.min.js"></script>
-    <script src="../bs/js/main.js"></script>
-
- 
-
+    <!-- Footer Section Begin -->
+	<%@include file="../00inc/footer.jsp" %>
+    <!-- Footer Section End -->
 </body>
 
 </html>

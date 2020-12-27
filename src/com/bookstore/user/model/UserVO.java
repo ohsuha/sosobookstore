@@ -1,7 +1,6 @@
 package com.bookstore.user.model;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class UserVO {
 	private String bu_userid;

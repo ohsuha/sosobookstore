@@ -35,6 +35,7 @@ public class cartDAO {
 		}
 	}
 	
+	//사용자 아이디로 장바구니 내역 보여주기
 	public List<cartDTO> showCart(String bu_userid) throws SQLException{
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -87,4 +88,53 @@ public class cartDAO {
 		}
 	}
 	
+	//장바구니에서 상품 삭제하기
+	public int deleteCartByNo(int c_no) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		
+		try {
+			//1,2
+			con=pool.getConnection();
+			
+			//3
+			String sql="delete from cart" + 
+					" where c_no = ?";
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, c_no);
+			
+			//4
+			int cnt=ps.executeUpdate();
+			System.out.println("장바구니 상품 삭제 결과, cnt="+cnt+", 매개변수 c_no="+c_no);
+			
+			return cnt;
+		}finally {
+			pool.dbClose(ps, con);
+		}
+	}
+	
+	//장바구니 전체 삭제 
+		public int deleteCartAll(String bu_userid) throws SQLException {
+			Connection con=null;
+			PreparedStatement ps=null;
+			
+			try {
+				//1,2
+				con=pool.getConnection();
+				
+				//3
+				String sql="delete from cart" + 
+						" where bu_userid=?";
+				ps=con.prepareStatement(sql);
+				ps.setString(1, bu_userid);
+				
+				//4
+				int cnt=ps.executeUpdate();
+				System.out.println("장바구니 상품 삭제 결과, cnt="+cnt+", bu_userid="+bu_userid);
+				
+				return cnt;
+			}finally {
+				pool.dbClose(ps, con);
+			}
+		}
 }

@@ -7,37 +7,9 @@
 <%@page import="com.bookstore.book.model.BookDetailDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="zxx">
-
+<%@ include file="../00inc/top.jsp"%>
+<%@ include file="../00inc/search.jsp"%>
 <head>
-<meta charset="UTF-8">
-<meta name="description" content="Ogani Template">
-<meta name="keywords" content="Ogani, unica, creative, html">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>소소책방 :: 도서 상세</title>
-
-<!-- Google Font -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
-	rel="stylesheet">
-
-<!-- Css Styles -->
-<link rel="stylesheet" href="../bs/css/bootstrap.min.css"
-	type="text/css">
-<link rel="stylesheet" href="../bs/css/font-awesome.min.css"
-	type="text/css">
-<link rel="stylesheet" href="../bs/css/elegant-icons.css"
-	type="text/css">
-<link rel="stylesheet" href="../bs/css/nice-select.css" type="text/css">
-<link rel="stylesheet" href="../bs/css/jquery-ui.min.css"
-	type="text/css">
-<link rel="stylesheet" href="../bs/css/owl.carousel.min.css"
-	type="text/css">
-<link rel="stylesheet" href="../bs/css/slicknav.min.css" type="text/css">
-<link rel="stylesheet" href="../bs/css/style.css" type="text/css">
-<script type="text/javascript" src="../bs/js/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
 	$(function(){
 		var qty = $('.pro-qty input').val() * 1;
@@ -74,7 +46,6 @@
 
 	});
 </script>
-
 </head>
 <body>
 	<%
@@ -127,7 +98,7 @@
 					<div class="breadcrumb__text">
 						<h2><%=vo.getBd_title() %></h2>
 						<div class="breadcrumb__option">
-							<a href="./index.html">Home</a> <a href="./index.html"><%=vo.getBk_kind_info() %></a>
+							<a href="../10main/index.jsp">Home</a><a><%=vo.getBk_kind_info() %></a>
 							<span>도서 상세</span>
 						</div>
 					</div>
@@ -169,7 +140,7 @@
 							</div>
 							<input type="hidden" value="1" id="bookQty" name="bookQty">
 							<input type="hidden" value="<%=vo.getBd_no() %>" id="bookNo" name="bookNo">
-							<input type="submit" value="ADD TO CARD">
+							<input type="submit" class="site-btn" value="ADD TO CARD">
 						</form>
 						<!-- 장바구니 담기 완료 -->
 						
@@ -275,18 +246,8 @@
 	</section>
 	<!-- Product Details Section End -->
 	
-	</div>
-	</div>
-	</section>
-	<!-- Js Plugins -->
-	<script src="../bs/js/jquery-3.3.1.min.js"></script>
-	<script src="../bs/js/bootstrap.min.js"></script>
-	<script src="../bs/js/jquery.nice-select.min.js"></script>
-	<script src="../bs/js/jquery-ui.min.js"></script>
-	<script src="../bs/js/jquery.slicknav.js"></script>
-	<script src="../bs/js/mixitup.min.js"></script>
-	<script src="../bs/js/owl.carousel.min.js"></script>
-	<script src="../bs/js/main.js"></script>
-
+    <!-- Footer Section Begin -->
+	<%@include file="../00inc/footer.jsp" %>
+    <!-- Footer Section End -->
 </body>
 </html>

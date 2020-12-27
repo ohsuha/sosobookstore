@@ -2,10 +2,6 @@ package com.bookstore.user.model;
 
 import java.sql.SQLException;
 
-//Service - DB작업 이외의 로직을 담는 클래스
-//jsp - DAO - DB
-//jsp - Service - DAO - DB
-
 public class UserService {
 	//아이디 중복확인시 사용
 	public static final int EXIST_ID=1;  //아이디가 이미 존재하는 경우
@@ -18,11 +14,13 @@ public class UserService {
 		
 	private UserDAO userDao;
 	
+	private static UserVO cuserVo;
+	
 	public UserService() {
 		userDao=new UserDAO();
 	}
 	
-	public int insertMember(UserVO vo) throws SQLException {
+	public int insertUser(UserVO vo) throws SQLException {
 		int cnt=userDao.insertUser(vo);
 		return cnt;
 	}
@@ -36,16 +34,29 @@ public class UserService {
 		return userDao.loginCheck(userid, pwd);
 	}
 		
-	public UserVO selectMember(String userid) throws SQLException {
+	public UserVO selectUser(String userid) throws SQLException {
 		return userDao.selectUser(userid);
 	}
 	
-	public int updateMember(UserVO vo) throws SQLException {
+	public int updateUser(UserVO vo) throws SQLException {
 		return userDao.updateUser(vo);
 	}
 	
-	public int withdrawMember(String userid) throws SQLException {
+	public int withdrawUser(String userid) throws SQLException {
 		return userDao.withdrawUser(userid);
+	}
+	
+	public void controllUserInput(String userid) throws SQLException {
+		cuserVo=userDao.selectUser(userid);
+		System.out.println("유저 로그인 - "+cuserVo.getBu_name());
+	}
+	public void controllUserOut() throws SQLException {
+		cuserVo=null;
+		System.out.println("로그아웃");
+	}
+	public UserVO controllUser() throws SQLException {
+		System.out.println("유저 호출 - "+cuserVo.getBu_name());
+		return cuserVo;
 	}
 	
 }
