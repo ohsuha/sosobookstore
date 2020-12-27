@@ -5,8 +5,6 @@
 <%@page import="com.bookstore.book.model.BookDetailDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-<div class="hero__search">
 <%
 ////////도서 리스트 보여주기///////
 //[1] main 에서 shop 클릭하면 get방식으로 이동 
@@ -14,6 +12,7 @@
 //[3] bookList.jsp에서 페이지 번호를 클릭하면 get방식으로 이동
 
 //1.
+request.setCharacterEncoding("utf-8");
 String keyword=request.getParameter("searchKeyword");
 String condition=request.getParameter("searchCondition");
 
@@ -34,6 +33,7 @@ if(condition==null){
 	condition="";
 }
 %>
+<div class="hero__search">
 	<div class="hero__search__form">
 		<!-- 검색 버튼 -->
 		<form action="/sosobookstore/06search/bookList.jsp" method="post" name="searchFrm">

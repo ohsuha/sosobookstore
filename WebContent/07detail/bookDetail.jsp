@@ -34,12 +34,22 @@
 		    $('#bookQty').val(qty);
 		});
 		
+		$('form[name=addCart]').submit(function(){
+			if(<%=userid%>===null){
+				alert("로그인 후 이용 가능합니다.");
+				event.preventDefault();
+			}
+		});
+		
 		$('form[name=riviewFrm]').submit(function(){
 			if(!$('#reviewContainer').val()){
 				alert("내용을 입력해주세요.");
 				event.preventDefault();
 			}else if($('#reviewContainer').val().length>1000){
 				alert("1000자 이하의 내용만 등록 가능합니다.");
+				event.preventDefault();
+			}else if(<%=userid%>===null){
+				alert("로그인 후 이용 가능합니다.");
 				event.preventDefault();
 			}
 		});
@@ -86,7 +96,7 @@
 	//3
 	//도서 소개 줄임
 	String content = vo.getBd_about();
-	String shortCont = content.substring(0, 120)+"...";
+	String shortCont = content.substring(0, 90)+"...";
 	
 %>
 	<!-- Breadcrumb Section Begin -->

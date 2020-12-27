@@ -4,7 +4,7 @@
 <%@page import="java.util.List"%>
 <%@page import="com.bookstore.book.model.BookDetailDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<div class="hero__search">
+
 <%
 ////////도서 리스트 보여주기///////
 //[1] main 에서 shop 클릭하면 get방식으로 이동 
@@ -12,6 +12,7 @@
 //[3] bookList.jsp에서 페이지 번호를 클릭하면 get방식으로 이동
 
 //1.
+request.setCharacterEncoding("utf-8");
 String keyword=request.getParameter("searchKeyword");
 String condition=request.getParameter("searchCondition");
 
@@ -20,7 +21,7 @@ BookDetailDAO bdDao = new BookDetailDAO();
 List<BookDetailVo> bookList = null;
 try {
 	bookList = bdDao.showAll(keyword, condition);
-	System.out.print("불러온 도서 레코드 수 :"+bookList.size());
+	System.out.println("불러온 도서 레코드 수 :"+bookList.size());
 } catch (SQLException e) {
 	e.printStackTrace();
 }
@@ -35,6 +36,7 @@ if(condition==null){
 	condition="";
 }
 %>
+<div class="hero__search">
 	<!-- Hero Section Begin -->
 	<section class="hero hero-normal">
 		<div class="container">
@@ -80,4 +82,5 @@ if(condition==null){
 			</div>
 		</div>
 	</section>
+	</div>
 	<!-- Hero Section End -->

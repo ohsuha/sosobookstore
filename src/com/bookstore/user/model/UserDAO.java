@@ -207,4 +207,32 @@ public class UserDAO {
 			pool.dbClose(ps, con);
 		}
 	}
+	
+	public int checkMasterUser(String userid) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		int result=0;
+		
+		try {
+			con=pool.getConnection();
+			
+			String sql="select bu_authority from bookuser where bu_userid=?";
+			ps=con.prepareStatement(sql);
+			ps.setString(1, userid);
+				
+			rs=ps.executeQuery();
+			if(rs.next()) {
+				int count=rs.getInt(1);
+				System.out.println("관리자 등급 체크"+rs.getInt(1));	
+				if(count==UserService.NORMAL_USER || count==UserService.MASTER_USER) {
+					result=count;
+				}
+			}
+			
+			return result;
+		}finally {
+			pool.dbClose(rs, ps, con);
+		}
+	}
 }

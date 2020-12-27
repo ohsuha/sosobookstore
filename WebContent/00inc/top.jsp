@@ -37,9 +37,13 @@
 	boolean isLogin=false;
 	String userid=(String)session.getAttribute("userid");
 	String username=(String)session.getAttribute("userName");
+	int mastercheck=0;
 	System.out.println("session에 남아있는 로그인 아이디 : "+userid+", 회원 이름 : "+username);
+	
 	if(userid!=null && !userid.isEmpty()){
 		isLogin=true; //로그인 된 경우에 true
+		mastercheck=(int)session.getAttribute("mastercheck");
+		System.out.println("session에 남아있는 관리자 권한 : "+mastercheck);
 	}
 	
 	System.out.println("로그인 여부 isLogin="+isLogin);

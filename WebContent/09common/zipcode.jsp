@@ -54,6 +54,7 @@ caption {
 	function setZipcode(address, zipcode){
 		$(opener.document).find('#zipcode').val(zipcode);
 		$(opener.document).find('input[name=add1]').val(address);
+		$(opener.document).find('input[name=address1]').val(address);
 		self.close();
 	}
 </script>

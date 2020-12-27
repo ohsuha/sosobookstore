@@ -23,10 +23,10 @@
                 <%@include file="../00inc/searchMain.jsp" %>
                     <div class="hero__item set-bg" data-setbg="../bs/img/hero/banner.jpg">
                         <div class="hero__text">
-                            <span>소소책방 어쩌구</span>
-                            <h2>Vegetable <br />100% Organic</h2>
-                            <p>Free Pickup and Delivery Available</p>
-                            <a href="#" class="primary-btn">SHOP NOW</a>
+                            <span> - 소 소 책 방 - </span>
+                            <h2>SOSO<br />BOOKSTORE</h2>
+                            <p>오픈 기념 행사, 배송비 무료</p>
+                            <a href="../06search/bookList.jsp" class="primary-btn">SHOP NOW</a>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
 	                        	<img class="bgimage" src="<%=vo.getBd_image()%>">
 	                        </div>
 	                        <div class="featured__item__text">
-	                            <h6><a href="#"><%=title %></a></h6>
+	                            <h6><a href="/sosobookstore/07detail/bookDetail.jsp?no=<%=vo.getBd_no() %>"><%=title %></a></h6>
 	                            <h5><%=df.format(price) %></h5>
 	                        </div>
 	                    </div>

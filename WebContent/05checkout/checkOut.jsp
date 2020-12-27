@@ -1,3 +1,4 @@
+<%@page import="com.bookstore.user.model.UserVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="com.bookstore.cart.model.cartDTO"%>
@@ -7,8 +8,45 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../00inc/top.jsp"%>
 <%@ include file="../00inc/search.jsp"%>
+<jsp:useBean id="userService" class="com.bookstore.user.model.UserService" scope="session"></jsp:useBean>
+<jsp:useBean id="userVo" class="com.bookstore.user.model.UserVO" scope="session"></jsp:useBean>
+<%
+	userVo = userService.selectUser(userid);
+	
+%>
 	<script type="text/javascript">
 	$(function(){
+		$('#btnZipcode').click(function(){
+			open("../09common/zipcode.jsp", "chk",
+			"width=500,height=500,left=0,top=0,location=yes,resizable=yes");
+		});
+		
+		$('#memAdress').click(function(){
+			console.log($('#memAdress').prop("checked"));
+			if($('#memAdress').prop("checked")){
+				$('#name').val("<%=userVo.getBu_name()%>");
+				if(<%=userVo.getBu_zipcode()%>!=null){
+					$('#zipcode').val("<%=userVo.getBu_zipcode()%>");
+				}
+				if(<%=userVo.getBu_address1()%>!=null){
+					$('#address1').val("<%=userVo.getBu_address1()%>");
+				}
+				if(<%=userVo.getBu_address2()%>!=null){
+					$('#address2').val("<%=userVo.getBu_address2()%>");
+				}
+				if(<%=userVo.getBu_hp()%>!=null){
+					$('#hp').val("<%=userVo.getBu_hp()%>");
+				}
+			}else{
+				$('#name').val("");
+				$('#zipcode').val("");
+				$('#address1').val("");
+				$('#address2').val("");
+				$('#hp').val("");
+			}
+		});
+		
+		
 		var sum=0;
 		$('.price').each(function(idx,item){
 			var price = $(this).html();
@@ -44,9 +82,9 @@
 				$('#email').focus();
 				event.preventDefault();
 			}
+			
 		});
 	});
-
 	function numberWithCommas(sum) {
 	    return sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
@@ -118,13 +156,13 @@
 	                            <div class="col-lg-6">
 		                            <div class="checkout__input">
 		                                <p><span>&nbsp</span></p>
-		                                <button type="button" class="site-btn">우편번호 검색</button>
+		                                <button type="button" class="site-btn" id="btnZipcode">우편번호 검색</button>
 	                                </div>
                                 </div>
                             </div>
                             <div class="checkout__input">
 	                                <p>주소<span>*</span></p>
-	                                <input type="text" placeholder="시/도/구/군" class="checkout__input__add" name="address1" id="address1">
+	                                <input type="text" placeholder="시/도/구/군" class="checkout__input__add" name="address1" id="address1" readonly>
 	                                <input type="text" placeholder="상세 주소 입력" name="address2" id="address2">
                             </div>
                             <div class="row">
@@ -138,7 +176,8 @@
                                     <div class="checkout__input">
                                         <p>Email<span>*</span></p>
                                         <input type="text" placeholder="Example@abc.com" name="email" id="email">
-                                        <input type="text" name="totalPrice" id="totalPrice">
+                                        <!-- totalPrice -->
+                                        <input type="hidden" name="totalPrice" id="totalPrice">
                                     </div>
                                 </div>
                             </div>

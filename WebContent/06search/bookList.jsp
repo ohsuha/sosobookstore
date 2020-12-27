@@ -6,14 +6,15 @@
 <%@page import="com.bookstore.book.model.BookDetailVo"%>
 <%@page import="com.bookstore.book.model.BookDetailDAO"%>
 <%@page import="java.util.List"%>
-<%@page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../00inc/top.jsp"%>
 <%@ include file="../00inc/search.jsp"%>
 <%
 //////베스트셀러 도서 리스트 보여주기///////
 //1.
 //2
+request.setCharacterEncoding("utf-8");
+
 List<BookDetailVo> bestList = null;
 try{
 	bestList=bdDao.showBestseller();
@@ -149,7 +150,7 @@ PageVo pageVo = new PageVo(currentPage, bookList.size(), 9, 5);
                         	if(i>pageVo.getTotalPage()) break;
                         	
                         	if(i==pageVo.getCurrentPage()){%>
-                        		<a><%=i%></a>
+                        		<a style="color:black"><%=i%></a>
                        	<%	}else{ %>
                        			<a href="bookList.jsp?currentPage=<%=i%>&searchKeyword=<%=keyword%>&searchCondition=<%=condition%>"><%=i%></a>
                     	<%}//if

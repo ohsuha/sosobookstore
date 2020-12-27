@@ -26,8 +26,17 @@
 			session.setAttribute("userid", userid);
 			userVO = userservice.selectUser(userid);
 			session.setAttribute("userName", userVO.getBu_name());
+			
 			msg = userVO.getBu_name() + "님 로그인되었습니다.";
+			session.setAttribute("mastercheck", UserService.NORMAL_USER);
+			
+			if(userservice.UserMasterCheck(userid)==UserService.MASTER_USER){
+				msg = userVO.getBu_name() + "관리자님 로그인되었습니다.";
+				session.setAttribute("mastercheck", UserService.MASTER_USER);
+			}
+
 			url = "/10main/index.jsp";//로그인 성공시 메인페이지로 이동
+			
 		} else if (result == UserService.PWD_DISAGREE) {
 			msg = "비밀번호가 일치하지 않습니다.";
 		} else if (result == UserService.ID_NONE) {

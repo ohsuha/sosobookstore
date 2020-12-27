@@ -9,54 +9,46 @@
 <%@ include file="../00inc/search.jsp"%>
 <script type="text/javascript">
 $(function(){
-	$('form[name=frmDelete]').submit(function(){
-		if(!confirm('삭제하시겠습니까?')){
-			event.preventDefault();
-		}
-	});
-	
-	var qty = $('.pro-qty input').val() * 1;
-	var money = $('.price').text();
-	//alert(money);
-	
-	var total = $('#total').text();
-	console.log(qty);
-	
-	$('.pro-qty input .dec').click(function(){
-	    $('.pro-qty input').val(qty);
-	    qty -= 1;
-	    console.log(qty);
-	    $('#bookQty').val(qty);
-	  //}
-	});
-	
-	$('.pro-qty input .inc').click(function(){
-	    $('.pro-qty input').val(qty);
-	    qty += 1;
-	    console.log(qty);
-	    $('#bookQty').val(qty);
-	});
-	
-	//도서별 합계 구하기시도중..
-	var bookSum=0;
-	$('.pz_record').each(function(idx,item){
-		 $(this).children('.c_price').html($(this).children('.price'));
-	});
-	
-	//전체 합계 구하기
-	/*
-	var sum=0;
-     $('.c_price').each(function(idx,item){
-         var price = $(this).html();
-         sum += price*1;
-      });
-     
-      $('#total').html(numberWithCommas(sum)+"원");*/
-	});
+		$('form[name=frmDelete]').submit(function(){
+			if(!confirm('삭제하시겠습니까?')){
+				event.preventDefault();
+			}
+		});
+		
+		var qty = $('.pro-qty input').val() * 1;
+		var money = $('.price').text();
+		//alert(money);
+		
+		var total = 0;
+		//$('#total').text();
+		console.log(qty);
+		
+		$('.pro-qty input .dec').click(function(){
+		    $('.pro-qty input').val(qty);
+		    qty -= 1;
+		    console.log(qty);
+		    $('#bookQty').val(qty);
+		  });
 
-   function numberWithCommas(sum) {
-       return sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-   }
+		
+		$('.pro-qty input .inc').click(function(){
+		    $('.pro-qty input').val(qty);
+		    qty += 1;
+		    console.log(qty);
+		    $('#bookQty').val(qty);
+		});
+		
+		//도서 수량별 가격 보여주기
+		$('.pz_record').each(function(){
+			var qty=$(this).find('#c_qty').val();
+			console.log("도서 수량 : "+qty);
+			$(this).find('.c_price').text(($(this).find('.price').text())*qty);
+			total += $('.c_price').html()*1;
+		});
+		$('#total').text(total);
+		$('#totalPrice').val(total);
+	});
+	
 </script>
 <body>
 
@@ -163,9 +155,8 @@ $(function(){
 										<div class="quantity">
 											<div class="pro-qty">
 												<!-- 수량 증가할 때, 합계 변하게 어떻게, -->
-												<input type="text" id="c_qty"
-													value="<%=dto.getC_bookqty()%>"> <input
-													type="hidden" value="1" id="bookQty" name="bookQty">
+												<input type="text" id="c_qty" value="<%=dto.getC_bookqty()%>">
+												<input type="hidden" value="1" id="bookQty" name="bookQty">
 											</div>
 										</div>
 									</td>
@@ -197,25 +188,28 @@ $(function(){
 				<div class="col-lg-12">
 					<div class="shoping__cart__btns">
 						<!-- 전체 삭제 -->
-						<%-- 						<form name="frmDelete" method="post" 
-												action="delete_ok.jsp?bu_userid=<%=bu_userid %>"> --%>
+						<form name="frmDelete" method="post"
+							action="cart_delete_ok.jsp?bu_userid=testuser" style="float:left">
+							<input type="submit" value="전체 삭제" class="primary-btn cart-btn cart-btn-left" />
+						</form>
+						<!-- 장바구니 업데이트 버튼 추가 : form으로 여기에 인풋, 히든으로 바뀐 정보 다 넣어서 자기 페이지로 post -->
+						
+						
 						<form name="frmDelete" method="post"
 							action="cart_delete_ok.jsp?bu_userid=testuser">
-							<input type="submit" value="전체 삭제"
-								class="primary-btn cart-btn cart-btn-right" />
+							<input type="submit" value="수정 반영" class="primary-btn cart-btn cart-btn-right" />
 						</form>
-						<!-- 장바구니 업데이트 버튼 추가 : form으로 여기에 인풋->히든 넣어서..? -->
-						
 						<!-- <a href="#" class="primary-btn cart-btn cart-btn-right"></span> </a> -->
 					</div>
 				</div>
 				<div class="col-lg-6"></div>
 
-				<div class="col-lg-6">
+				<div class="col-lg-12">
 					<div class="shoping__checkout">
 						<h5>
 							장바구니 합계 <br>
-							<span id="total"></span>
+							<span id="total"> </span><span>원</span>
+							<input type="hidden" id="totalPrice" value="0">
 						</h5>
 
 						<!-- <ul>

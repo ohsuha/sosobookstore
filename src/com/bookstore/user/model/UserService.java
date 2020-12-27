@@ -11,6 +11,10 @@ public class UserService {
 	public static final int LOGIN_OK=1; //로그인 성공
 	public static final int ID_NONE=2; //아이디가 없는 경우
 	public static final int PWD_DISAGREE=3; //비밀번호 불일치
+	
+	//관리자체크시 사용
+	public static final int NORMAL_USER=0; //일반사용자
+	public static final int MASTER_USER=1; //관리자
 		
 	private UserDAO userDao;
 	
@@ -45,6 +49,11 @@ public class UserService {
 	public int withdrawUser(String userid) throws SQLException {
 		return userDao.withdrawUser(userid);
 	}
+	
+	public int UserMasterCheck(String userid) throws SQLException {
+		return userDao.checkMasterUser(userid);
+	}
+	
 	
 	public void controllUserInput(String userid) throws SQLException {
 		cuserVo=userDao.selectUser(userid);
