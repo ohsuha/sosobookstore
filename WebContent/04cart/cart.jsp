@@ -15,10 +15,9 @@ $(function(){
 			}
 		});
 		
-		var qty = $('.pro-qty input').val() * 1;
+		var qty = $('#c_qty').val();
 		
 		var total = 0;
-		console.log("qty"+qty);
 		
 		//도서 수량별 가격 보여주기
 		$('.pz_record').each(function(){
@@ -28,27 +27,27 @@ $(function(){
 			total += $('.c_price').html()*1;
 		});
 		
+		//전체 합계 가격 보여주기
+		$('#total').text(total);
+		$('#totalPrice').val(total);
+		
 		//click 이벤트 발생 (마이너스)
 		$('.pro-qty input .dec').click(function(){
 		    $('.pro-qty input').val(qty);
 		    qty -= 1;
-		    console.log(qty);
 		    $('#bookQty').val(qty);
-		    $('.c_price').text($('.price').text()*qty);
+		    $('.c_price').text($('.price').text()*qty); //?????????????????????왜안됨?????????????????
 		});
 		
 		//click 이벤트 발생 (플러스)
 		$('.pro-qty input .inc').click(function(){
 		    $('.pro-qty input').val(qty);
 		    qty += 1;
-		    console.log(qty);
 		    $('#bookQty').val(qty);
 		    $('.c_price').text($('.price').text()*qty);
 		});
 		
-		//전체 합계 가격 보여주기
-		$('#total').text(total);
-		$('#totalPrice').val(total);
+		
 	});
 	
 </script>
