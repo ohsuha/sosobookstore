@@ -65,6 +65,3 @@
     <!-- Footer Section Begin -->
 	<%@include file="../00inc/footer.jsp" %>
     <!-- Footer Section End -->
-
-</body>
-</html>

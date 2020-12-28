@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="../bs/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../bs/css/style.css" type="text/css">
     <script type="text/javascript" src="../bs/js/jquery-3.5.1.min.js"></script>
-
+	<script src="../bs/js/ckeditor/ckeditor.js"></script>
 </head>
 
 <%
@@ -69,7 +69,6 @@
                         <div class="header__top__right">
 							<div class="header__top__right__auth">
 							<%if(isLogin){ %>
-								<!-- 로그아웃 처리하는 페이지도 만들어주세요. -->
                                 <a href="../02login/logout.jsp"> 로그아웃 </a>
                                 <a href="../03mypage/mypage.jsp"> 마이페이지 </a>
 							<%}else{%>
@@ -93,7 +92,7 @@
                     <nav class="header__menu">
                         <ul>
                         	<!-- active효과 각 페이지 선택했을때만 줄것 -->
-                            <li class="active"><a href="../10main/index.jsp">Home</a></li>
+                            <li><a href="../10main/index.jsp">Home</a></li>
                             <li><a href="../06search/bookList.jsp">Shop</a></li>
                             <li><a href="#">Community</a>
                                 <ul class="header__menu__dropdown">

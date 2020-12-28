@@ -164,5 +164,34 @@ public class BookDetailDAO {
 			pool.dbClose(rs, ps, con);
 		}
 	}
+	//[8] 판매순으로 상위 8건만 조회 
+	public List<BookDetailVo> showBestBook() throws SQLException{
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<BookDetailVo> list = new ArrayList<BookDetailVo>();
+		try {
+			con=pool.getConnection();
+			String sql = "select*from"
+					+ "(select bd_no, bd_title, bd_price, bd_image\r\n"
+					+ "    from bookdetail order by bd_sellcount)"
+					+ "where rownum<=8";
+			ps=con.prepareStatement(sql);
+			
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				BookDetailVo vo = new BookDetailVo();
+				vo.setBd_no(rs.getInt("bd_no"));
+				vo.setBd_price(rs.getInt("bd_price"));
+				vo.setBd_title(rs.getString("bd_title"));
+				vo.setBd_image(rs.getString("bd_image"));
+				list.add(vo);
+			}
+			System.out.println("판매순 상위 8건 조회 결과 : "+list.size());
+			return list;
+		}finally {
+			pool.dbClose(rs, ps, con);
+		}
+	}
 	
 }

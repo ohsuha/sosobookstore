@@ -4,9 +4,16 @@
 <%
 	BookDetailDAO dao=new BookDetailDAO();
 	
-	List<BookDetailVo> list=null;
+	List<BookDetailVo> recentList=null;
 	try{
-		list=dao.showMainBook();
+		recentList=dao.showMainBook();
+	}catch(SQLException e){
+		e.printStackTrace();
+	}
+	
+	List<BookDetailVo> bestList=null;
+	try{
+		bestList=dao.showBestBook();
 	}catch(SQLException e){
 		e.printStackTrace();
 	}
@@ -44,19 +51,38 @@
                     </div>
                     <div class="featured__controls">
                         <ul>
-                            <li class="active mixitup-control-active">New Arrivals</li>
-                            <li class="selected_bestitem">Best Item</li>
+                            <li class="active mixitup-control-active" data-filter="*">ALL</li>
+                            <li class="selected_bestitem" data-filter=".new">New Arrivals</li>
+                            <li class="selected_bestitem" data-filter=".best">Bestseller</li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="row featured__filter">
-            
-            <%for(int i=0;i<list.size();i++){
-            	BookDetailVo vo=list.get(i);
+            <!-- 신간모음 -->
+            <%for(int i=0;i<recentList.size();i++){
+            	BookDetailVo vo=recentList.get(i);
             	String title=vo.getBd_title();
             	int price=vo.getBd_price();%>
-	                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+	                <div class="col-lg-3 col-md-4 col-sm-6 mix new">
+	                    <div class="featured__item">
+	                        <div class="featured__item__pic">
+	                        	<img class="bgimage" src="<%=vo.getBd_image()%>">
+	                        </div>
+	                        <div class="featured__item__text">
+	                            <h6><a href="/sosobookstore/07detail/bookDetail.jsp?no=<%=vo.getBd_no() %>"><%=title %></a></h6>
+	                            <h5><%=df.format(price) %></h5>
+	                        </div>
+	                    </div>
+	                </div>
+	             <%}//for %>
+	             
+	             <!-- 베스트 셀러 모음  -->
+                <%for(int i=0;i<bestList.size();i++){
+            	BookDetailVo vo=bestList.get(i);
+            	String title=vo.getBd_title();
+            	int price=vo.getBd_price();%>
+	                <div class="col-lg-3 col-md-4 col-sm-6 mix best">
 	                    <div class="featured__item">
 	                        <div class="featured__item__pic">
 	                        	<img class="bgimage" src="<%=vo.getBd_image()%>">
