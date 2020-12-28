@@ -115,9 +115,9 @@ if(userid==null){
                             </div>
                              <div class="checkout__input">
                                 <p>주소</p>
-                                <input type="text" name="add1" id="add1" readonly>
+                                <input type="text" name="address1" id="add1" readonly>
                                 <p>상세주소</p>
-                                <input type="text" name="add2" id="add2">
+                                <input type="text" name="address2" id="add2">
                             </div>
                             <div class="checkout__input">
                                 <p>전화번호(-없이 입력)</p>

@@ -136,7 +136,7 @@
 						<div class="product__details__rating">
 							<span><%=comCnt %>개의 리뷰가 있습니다.</span>
 						</div>
-							<div class="product__details__price">12,600원</div>
+							<div class="product__details__price"><%=df.format(vo.getBd_price()) %>원</div>
 							<p><%=shortCont%></p>
 						
 						<!-- 장바구니 담기 -->

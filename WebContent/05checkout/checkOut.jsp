@@ -162,7 +162,7 @@
                             </div>
                             <div class="checkout__input">
 	                                <p>주소<span>*</span></p>
-	                                <input type="text" placeholder="시/도/구/군" class="checkout__input__add" name="address1" id="address1" readonly>
+	                                <input type="text" placeholder="시/도/구/군" class="checkout__input__add" name="address1" id="address1">
 	                                <input type="text" placeholder="상세 주소 입력" name="address2" id="address2">
                             </div>
                             <div class="row">
@@ -191,7 +191,7 @@
                                 <% if(list!=null && !list.isEmpty()){
                                 	for(int i=0; i<list.size(); i++){
                                 		cartDTO dto = list.get(i);
-                                	%><li><%=dto.getBd_title() %> <span class="price"><%=df.format(dto.getBd_price()) %></span> </li>
+                                	%><li><%=dto.getBd_title() %> (<%=dto.getC_bookqty() %>권)<span class="price"> <%=df.format(dto.getBd_price()*dto.getC_bookqty()) %></span> </li>
                                 	<%}//for
                                 	}//if%>
                                 </ul>

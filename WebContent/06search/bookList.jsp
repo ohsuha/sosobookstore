@@ -81,7 +81,7 @@ PageVo pageVo = new PageVo(currentPage, bookList.size(), 9, 5);
                                         	%>
                                         	<a href="/sosobookstore/07detail/bookDetail.jsp?no=<%=vo.getBd_no() %>" class="latest-product__item">
                                             <div class="latest-product__item__pic">
-                                                <img src="<%=vo.getBd_image() %>" alt="도서 이미지">
+                                                <img class="detailimage" src="<%=vo.getBd_image() %>" alt="도서 이미지">
                                             </div>
                                             <div class="latest-product__item__text">
                                                 <h6><%=vo.getBd_title() %></h6>
@@ -127,7 +127,8 @@ PageVo pageVo = new PageVo(currentPage, bookList.size(), 9, 5);
                     		%>
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="<%=vo.getBd_image()%>">
+                                <div class="product__item__pic">
+                                	<img class="listimage" src="<%=vo.getBd_image()%>">
                                 </div>
                                 <div class="product__item__text">
                                     <h6><a href="/sosobookstore/07detail/bookDetail.jsp?no=<%=vo.getBd_no() %>"><%=vo.getBd_title() %></a></h6>
