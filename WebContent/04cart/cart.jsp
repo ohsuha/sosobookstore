@@ -16,27 +16,9 @@ $(function(){
 		});
 		
 		var qty = $('.pro-qty input').val() * 1;
-		var money = $('.price').text();
-		//alert(money);
 		
 		var total = 0;
-		//$('#total').text();
-		console.log(qty);
-		
-		$('.pro-qty input .dec').click(function(){
-		    $('.pro-qty input').val(qty);
-		    qty -= 1;
-		    console.log(qty);
-		    $('#bookQty').val(qty);
-		  });
-
-		
-		$('.pro-qty input .inc').click(function(){
-		    $('.pro-qty input').val(qty);
-		    qty += 1;
-		    console.log(qty);
-		    $('#bookQty').val(qty);
-		});
+		console.log("qty"+qty);
 		
 		//도서 수량별 가격 보여주기
 		$('.pz_record').each(function(){
@@ -45,6 +27,26 @@ $(function(){
 			$(this).find('.c_price').text(($(this).find('.price').text())*qty);
 			total += $('.c_price').html()*1;
 		});
+		
+		//click 이벤트 발생 (마이너스)
+		$('.pro-qty input .dec').click(function(){
+		    $('.pro-qty input').val(qty);
+		    qty -= 1;
+		    console.log(qty);
+		    $('#bookQty').val(qty);
+		    $('.c_price').text($('.price').text()*qty);
+		});
+		
+		//click 이벤트 발생 (플러스)
+		$('.pro-qty input .inc').click(function(){
+		    $('.pro-qty input').val(qty);
+		    qty += 1;
+		    console.log(qty);
+		    $('#bookQty').val(qty);
+		    $('.c_price').text($('.price').text()*qty);
+		});
+		
+		//전체 합계 가격 보여주기
 		$('#total').text(total);
 		$('#totalPrice').val(total);
 	});
@@ -156,7 +158,7 @@ $(function(){
 											<div class="pro-qty">
 												<!-- 수량 증가할 때, 합계 변하게 어떻게, -->
 												<input type="text" id="c_qty" value="<%=dto.getC_bookqty()%>">
-												<input type="hidden" value="1" id="bookQty" name="bookQty">
+												<input type="hidden" value="<%=dto.getC_bookqty()%>" id="bookQty" name="bookQty">
 											</div>
 										</div>
 									</td>
@@ -207,7 +209,7 @@ $(function(){
 				<div class="col-lg-12">
 					<div class="shoping__checkout">
 						<h5>
-							장바구니 합계 <br>
+							장바구니 합계 : 
 							<span id="total"> </span><span>원</span>
 							<input type="hidden" id="totalPrice" value="0">
 						</h5>
