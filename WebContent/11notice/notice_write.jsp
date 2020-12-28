@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../00inc/top.jsp"%>
 <%@ include file="../00inc/search.jsp"%>
-<script src="../bs/js/ckeditor/ckeditor.js"></script>
+
 <script type="text/javascript">
 	$(function(){
 		$('#title').focus();
