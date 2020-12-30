@@ -8,7 +8,7 @@
 		$('#title').focus();
 		
 		$('form[name=frmWrite]').find('input[type=button]').click(function(){
-			location.href ='notice.jsp';
+			location.href ='QA.jsp';
 		});
 		
 		$('form[name=frmWrite]').submit(function(){
@@ -16,13 +16,7 @@
 				alert('제목을 입력하세요');
 				$('#title').focus();
 				event.preventDefault();
-			}
-			
-			if($('#title').val().length>31){
-				alert('제목은 최대 30자까지 입력 가능합니다');
-				$('#title').focus();
-				event.preventDefault();
-			}		
+			}	
 		});
 		
 	});
@@ -34,10 +28,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="blog__details__hero__text">
-                        <h2>Notice</h2>
-                        <ul>
-                            <li>고객센터</li>
-                        </ul>
+                        <h2>QA</h2>
                     </div>
                 </div>
             </div>
@@ -52,17 +43,16 @@
                 <div class="col-lg-12 col-md-5 order-md-1 order-2">
                 
                 	<!-- frmWrite -->
-                    <form name="frmWrite" method="post" action="notice_write_ok.jsp">
+                    <form name="frmWrite" method="post" action="QA_write_ok.jsp">
                    		<input type="hidden" name="userid" id="userid" value="<%=userid%>">
                    		
                    		<!-- 에디터-->
                    		<div name="categoryDiv">
 							<select class="selectpicker" id="category" name="category">
-								<option value="1">주문 및 결제</option>
-								<option value="2">반품/교환/환불</option>
-								<option value="3">배송정보</option>
-								<option value="4">기타</option>
-								<option value="5">공지사항</option>
+								<option value="1">배송문의</option>
+								<option value="2">상품문의</option>
+								<option value="3">계정문의</option>
+								<option value="4">기타문의</option>
 							</select>
 						</div><br><br>
 						
@@ -80,7 +70,7 @@
 						</div>
 					<hr><br> 
 					<input type="submit" value="등록" class="site-btn">
-					<input type="button" value="취소" class="site-btn" style="background-color: #999">
+					<input type="button" value="글목록" class="site-btn"">
                     </form>
                     
                 </div>

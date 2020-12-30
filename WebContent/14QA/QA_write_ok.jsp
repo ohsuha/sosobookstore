@@ -1,6 +1,7 @@
 <%@page import="javax.xml.bind.ParseConversionEvent"%>
 <%@page import="java.sql.SQLException"%>
-<%@page import="com.bookstore.notice.model.NoticeDAO"%>
+<%@page import="com.bookstore.qa.model.qaDAO"%>
+<%@page import="com.bookstore.qa.model.qaDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,31 +10,30 @@
 <meta charset="UTF-8">
 <title>notice_write_ok.jsp</title>
 </head>
-<jsp:useBean id="noticeDao" class="com.bookstore.notice.model.NoticeDAO"/>
-<jsp:useBean id="noticeVo" class="com.bookstore.notice.model.NoticeVO"/>
+<jsp:useBean id="qaDao" class="com.bookstore.qa.model.qaDAO"/>
+<jsp:useBean id="qaVo" class="com.bookstore.qa.model.qaVO"/>
 <body>
 <%
-	//notice_write.jsp에서 post방식으로 이동
 	request.setCharacterEncoding("utf-8");
-
 	String userid=request.getParameter("userid");
-	String category=request.getParameter("category");
+	int category=Integer.parseInt(request.getParameter("category"));
 	String title=request.getParameter("title");
 	String content=request.getParameter("content");
 	
 	//
-	String msg="공지 등록 실패", url="/11notice/notice.jsp";
+	String msg="Q 등록 실패", url="/14QA/QA.jsp";
 	
 	try{
-		noticeVo.setBu_userid(userid);
-		noticeVo.setNk_kind_no(category);
-		noticeVo.setNh_title(title);
-		noticeVo.setNh_about(content);
+		qaVo.setBu_userid(userid);
+		qaVo.setQk_no(category);
+		qaVo.setQa_title(title);
+		qaVo.setQa_about(content);
+		qaVo.setQa_step(0);
 		
-		int cnt=noticeDao.insertNotice(noticeVo);
+		int cnt=qaDao.insertqa(qaVo);
 		if(cnt>0){
-			msg="공지 등록 성공";
-			url="/11notice/notice.jsp";
+			msg="Q 등록 성공";
+			url="/14QA/QA.jsp";
 		}
 	}catch(SQLException e){
 		e.printStackTrace();

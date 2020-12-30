@@ -7,6 +7,7 @@
 <%@ include file="../00inc/search.jsp"%>
 <jsp:useBean id="userService"
 	class="com.bookstore.user.model.UserService" scope="session"></jsp:useBean>
+<head>
 <%
 	request.setCharacterEncoding("utf-8");
 
@@ -28,6 +29,8 @@
 		bu_address2 = "";
 
 	String bu_hp = vo.getBu_hp();
+	
+	
 %>
 <head>
 <script type="text/javascript">
@@ -45,12 +48,16 @@
 						alert('전화번호는 숫자만 가능합니다.');
 						$('#hp').focus();
 						event.preventDefault();
+					} else if ($('#address1').val()>1 && $('#address2')<1) {
+						alert('상세 주소를 입력해주세요.');
+						$('#address2').focus();
+						event.preventDefault();
 					}
 				});
 		
 		$('#btnZipcode').click(function(){
-			open("../zipcode/zipcode.jsp", "chk",
-				"width=500,height=500,left=0,top=0,location=yes,resizable=yes");
+			open("../09common/zipcode.jsp", "chk",
+			"width=500,height=500,left=0,top=0,location=yes,resizable=yes");
 		});
 	});
 </script>
@@ -69,7 +76,7 @@
 	text-transform: uppercase;
 	display: inline-block;
 	padding: 13px 30px 12px;
-	background: #7fad39;
+	background: #999999;
 	border: none;
 }
 </style>
@@ -158,7 +165,7 @@
 									<div class="checkout__input">
 										<p>주소</p>
 										<input type="text" name="zipcode" id="zipcode" ReadOnly
-											title="우편번호" placeholder="우편번호">
+											title="우편번호" placeholder="우편번호" value="<%=zipcode %>">
 									</div>
 								</div>
 								<div class="col-lg-6">
@@ -166,14 +173,13 @@
 										<p>
 											<span>&nbsp</span>
 										</p>
-										<input type="Button" class="back-btn"  value="우편번호 검색" id="btnZipcode" 
-												style="color: white;" title="새창열림">
+										 <button type="button" class="site-btn" id="btnZipcode">우편번호 검색</button>
 									</div>
 								</div>
 							</div>
 							<div class="checkout__input">
-								<input type="text" placeholder="기본 주소" class="checkout__input__add" name="address"> 
-								<input type="text" placeholder="상세 주소" name="bu_address2">
+								<input type="text" placeholder="기본 주소" class="checkout__input__add" name="address1" id="address1" value="<%=bu_address1%>"> 
+								<input type="text" placeholder="상세 주소 입력" name="address2" id="address2" value="<%=bu_address2 %>">
 							</div>
 							<div class="row">
 								<div class="col-lg-6">
@@ -195,7 +201,6 @@
 							<!-- id="mem_submit" -->
 							<button type="submit" class="site-btn" id="edit_submit">회원 정보 수정</button>
 							<a href="../10main/index.jsp" class="back-btn">취소</a>
-							<!-- <button type="submit" class="back-btn">취소</button> -->
 						</div>
 					</div>
 				</form>

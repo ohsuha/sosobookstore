@@ -17,9 +17,9 @@
 	String bu_userid=(String)session.getAttribute("userid");
 	
 	String bu_password=request.getParameter("pwd");
-	String bu_zipcode=request.getParameter("bu_zipcode");
-	String bu_address1=request.getParameter("bu_address1");
-	String bu_address2=request.getParameter("bu_address2");
+	String bu_zipcode=request.getParameter("zipcode");
+	String bu_address1=request.getParameter("address1");
+	String bu_address2=request.getParameter("address2");
 	String bu_hp=request.getParameter("bu_hp");
 	
 	//2

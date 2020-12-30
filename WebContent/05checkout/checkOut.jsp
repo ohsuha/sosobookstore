@@ -12,9 +12,9 @@
 <jsp:useBean id="userVo" class="com.bookstore.user.model.UserVO" scope="session"></jsp:useBean>
 <%
 	userVo = userService.selectUser(userid);
-	
+	System.out.println("주문에서 가져오는 사용자 정보 : "+userVo);
 %>
-	<script type="text/javascript">
+<script type="text/javascript">
 	$(function(){
 		$('#btnZipcode').click(function(){
 			open("../09common/zipcode.jsp", "chk",
@@ -27,11 +27,7 @@
 				$('#name').val("<%=userVo.getBu_name()%>");
 				if(<%=userVo.getBu_zipcode()%>!=null){
 					$('#zipcode').val("<%=userVo.getBu_zipcode()%>");
-				}
-				if(<%=userVo.getBu_address1()%>!=null){
 					$('#address1').val("<%=userVo.getBu_address1()%>");
-				}
-				if(<%=userVo.getBu_address2()%>!=null){
 					$('#address2').val("<%=userVo.getBu_address2()%>");
 				}
 				if(<%=userVo.getBu_hp()%>!=null){
@@ -45,7 +41,6 @@
 				$('#hp').val("");
 			}
 		});
-		
 		
 		var sum=0;
 		$('.price').each(function(idx,item){
@@ -82,9 +77,11 @@
 				$('#email').focus();
 				event.preventDefault();
 			}
-			
 		});
 	});
+	
+	
+	
 	function numberWithCommas(sum) {
 	    return sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}

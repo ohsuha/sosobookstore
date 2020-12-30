@@ -1,7 +1,38 @@
+<%@page import="com.bookstore.utility.Utility"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="com.bookstore.notice.model.NoticeVO"%>
+<%@page import="com.bookstore.notice.model.NoticeDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../00inc/top.jsp"%>
 <%@ include file="../00inc/search.jsp"%>
+
+<style type="text/css">
+ a:link { color: black; text-decoration: none;}
+ a:visited { color: black; text-decoration: none;}
+ a:hover { color: black; text-decoration: underline;}
+</style>
+
+
+<%
+	request.setCharacterEncoding("utf-8");
+	String category=request.getParameter("category");
+	
+	NoticeDAO noticeDao=new NoticeDAO();
+	
+	List<NoticeVO>list=null;
+	try{
+		list=noticeDao.selectNotice(category);
+		System.out.println("공지 레코드 수 : "+list.size());
+		System.out.println("category="+category);
+	}catch(SQLException e){
+		e.printStackTrace();
+	}
+	
+	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+	
+	
+%>
 
     <!-- Blog Details Hero Begin -->
     <section class="blog-details-hero set-bg" data-setbg="../bs/img/blog/details/details-hero.jpg">
@@ -24,50 +55,47 @@
     <section class="blog-details spad">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-5 order-md-1 order-2">
-                    <div class="blog__sidebar">
-                        <div class="blog__sidebar__item">
-                            <h4>이용안내</h4>
-                            <ul>
-                                <li><a href="#">전체보기</a></li>
-                                <li><a href="#">주문 및 결제</a></li>
-                                <li><a href="#">반품/교환/환불</a></li>
-                                <li><a href="#">배송</a></li>
-                                <li><a href="#">회원정보</a></li>
-                                <li><a href="#">기타</a></li><br>
-                            </ul>
-                            <h4>공지사항</h4>
-                            <ul>
-                                <li><a href="#">공지사항</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                    <!-- 카테고리 include -->
+                    <%@include file="/00inc/notice_category.jsp" %>
 	                <div class="col-lg-9 col-md-7 order-md-1 order-1">
 	                <!-- 테이블 들어갈 자리 -->
 	                <table class="table">
 					<thead>
 		                	<tr style="text-align: center;">
 		                		<th style="width: 10%">번호</th>
-		                		<th style="width: 50%">제목</th>
-		                		<th style="width: 25%">관리자</th>
-		                		<th style="width: 25%">등록일</th>
+		                		<th style="width: 25%">카테고리</th>
+		                		<th style="width: 40%">제목</th>
+		                		<th style="width: 10%">관리자</th>
+		                		<th style="width: 15%">등록일</th>
 		                	</tr>
 		                </thead>
 		                <tbody>
 		                <!-- 글목록 출력 -->
+		                	<%if(list==null || list.isEmpty()){%>
 		                	<tr>
-		                		<td>1</td>
-		                		<td>제목제목제목제목</td>
-		                		<td>관리자</td>
-		                		<td>2020-12-28</td>
+		                		<p>데이터가 존재하지 않습니다</p>
 		                	</tr>
+		                	<%}else{
+		                		for(int i=0; i<list.size();i++){
+		                			NoticeVO vo=list.get(i);%>
+			                	<tr>
+			                		<td><%=vo.getNh_no()%></td>
+			                		<td><%=vo.getNk_kind_info()%></td>
+			                		<td><a href="notice_detail.jsp?no=<%=vo.getNh_no()%>">
+			                			<%=Utility.cutString(vo.getNh_title(), 17) %></a></td>
+			                		<td><%=vo.getBu_userid() %></td>
+			                		<td><%=sdf.format(vo.getNh_regdate()) %></td>		                	
+			                	</tr>
+		                		<%}//for %>
+		                	<%}//int %>
 		                </tbody>
 	                </table>
-	                <hr>
+	                <br>
+	                <%if(mastercheck>0){ %>
 	                <input type="button" class="site-btn" value="글쓰기" 
 	                	onclick="location.href='notice_write.jsp'" 
 	                		style="text-align: right;">
+	                <%} %>
 	                </div>
                 </div>
             </div>

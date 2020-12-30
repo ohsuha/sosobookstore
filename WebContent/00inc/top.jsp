@@ -29,8 +29,9 @@
     <link rel="stylesheet" href="../bs/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../bs/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../bs/css/style.css" type="text/css">
-    <script type="text/javascript" src="../bs/js/jquery-3.5.1.min.js"></script>
-	<script src="../bs/js/ckeditor/ckeditor.js"></script>
+    <script src="../bs/js/main.js"></script>
+    <script src="../bs/js/ckeditor/ckeditor.js"></script>
+    <script src="../bs/js/jquery-3.5.1.min.js"></script>
 </head>
 
 <%
@@ -50,7 +51,11 @@
 %>
 
 <body>
-   
+       <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+    
     <!-- Header Section Begin -->
     <header class="header">
         <div class="header__top">
@@ -75,6 +80,9 @@
                                 <a href="../02login/login.jsp"> 로그인 </a>
 							<%} %>
                                 <a href="../04cart/cart.jsp"> 장바구니 </a>
+							<%if(mastercheck==1){ %>
+                                <a href="../12bookregister/bookregister.jsp"> 신규도서등록 </a>
+                                <%} %>
                             </div>
                         </div>
                     </div>
@@ -96,20 +104,15 @@
                             <li><a href="../06search/bookList.jsp">Shop</a></li>
                             <li><a href="#">Community</a>
                                 <ul class="header__menu__dropdown">
-                                    <li><a href="#">Notice</a></li>
-                                    <li><a href="#">Q&A</a></li>
+                                    <li><a href="../11notice/notice.jsp">Notice</a></li>
+                                    <li><a href="../14QA/QA.jsp">Q&A</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="../11notice/contact.jsp">Contact</a></li>
                         </ul>
                     </nav>
                 </div>
             </div>
-            <div class="humberger__open">
-                <i class="fa fa-bars"></i>
-            </div>
         </div>
-        
-    
     </header>
     <!-- Header Section End -->

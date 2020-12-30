@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +18,102 @@ public class BookDetailDAO {
 	}
 	
 	//[1] 신규 도서 입력
-	
+	public int insertBookDetail(BookDetailVo vo) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		
+		try {
+			//1,2
+			con=pool.getConnection();
+			
+			//3
+			String sql="insert into bookdetail(bd_no, bd_ISBN, bd_title, bd_pubdate, bd_author, bd_image, bd_about, bd_price, bd_publisher, bd_sellcount, bd_regdate, bk_kind_no)"+
+					"values(BOOKDETAIL_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, 0, sysdate, ?)";
+			ps=con.prepareStatement(sql);
+			
+			ps.setString(1, vo.getBd_ISBN());
+			ps.setString(2, vo.getBd_title());
+			Timestamp puddate=new Timestamp((vo.getBd_pubdate()).getTime());
+			ps.setTimestamp(3, puddate);
+			ps.setString(4, vo.getBd_author());
+			ps.setString(5, vo.getBd_image());
+			ps.setString(6, vo.getBd_about());
+			ps.setInt(7, vo.getBd_price());
+			System.out.println(vo.getBd_publisher());
+			ps.setString(8, vo.getBd_publisher());
+			ps.setInt(9, vo.getBk_kind_no());
+			
+			//4
+			System.out.println("하나둘셋");
+			int cnt=ps.executeUpdate();
+			System.out.println("넷다섯여섯");
+
+			System.out.println("책 등록 결과, cnt="+cnt+", 매개변수 vo="+vo);
+			
+			return cnt;
+		}finally {
+			pool.dbClose(ps, con);
+		}
+	}
 	//[2] 도서 수정
+	public int editBookDetail(int no, BookDetailVo vo) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		
+		try {
+			//1,2
+			con=pool.getConnection();
+			//3
+			String sql="update bookdetail set bd_about = ?, bd_price = ?, bd_sellcount = ?, bk_kind_no = ? where bd_no=?";
+			ps=con.prepareStatement(sql);
+			
+			ps.setString(1, vo.getBd_about());
+			ps.setInt(2, vo.getBd_price());
+			ps.setInt(3, vo.getBd_sellcount());
+			ps.setInt(4, vo.getBk_kind_no());
+			ps.setInt(5, vo.getBd_no());
+			
+			//4
+			int cnt=ps.executeUpdate();
+			System.out.println("도서수정");
+
+			System.out.println("책 등록 결과, cnt="+cnt+", 매개변수 vo="+vo);
+			
+			return cnt;
+		}finally {
+			pool.dbClose(ps, con);
+		}
+	}
 	
 	//[3] 도서 삭제 - 실제로 테이블에서 삭제하지 말고 delflag만 Y로 바꿔주기
+	public int deleteBookDetail(int no) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		String yy="Y";
+		
+		try {
+			//1,2
+			con=pool.getConnection();
+			
+			//3
+			String sql="update bookdetail set bd_delflag = ? where bd_no=?";
+			ps=con.prepareStatement(sql);
+			
+			ps.setString(1, yy);
+			ps.setInt(2, no);
+			
+			//4
+			System.out.println("붕붕붕");
+			int cnt=ps.executeUpdate();
+			System.out.println("도서삭제");
+
+			System.out.println("책 삭제 결과, cnt="+cnt);
+			
+			return cnt;
+		}finally {
+			pool.dbClose(ps, con);
+		}
+	}
 	
 	//[4] 도서 번호로 검색
 	public BookDetailVo selectByNo(int no) throws SQLException {
@@ -67,12 +160,15 @@ public class BookDetailDAO {
 			con=pool.getConnection();
 			String sql = "select * from bookdetail";
 			if(keyword!=null && !keyword.isEmpty()) {
-				sql+=" where bd_title||bd_author like '%' || ? || '%'";
+				sql+=" where bd_title||bd_author like '%' || ? || '%' and bd_delflag is null ";
 				condition=null;
 			}
 			if(condition!=null && !condition.isEmpty()) {
-				sql+=" bd join bookkind bk on bd.bk_kind_no=bk.bk_kind_no and bk.bk_kind_info=?";
+				sql+=" bd join bookkind bk on bd.bk_kind_no=bk.bk_kind_no and bk.bk_kind_info=? where bd.bd_delflag is null";
 				keyword=null;
+			}
+			if(keyword==null && condition==null) {
+				sql+=" where bd_delflag is null";
 			}
 			sql+=" order by bd_regdate desc";
 			ps=con.prepareStatement(sql);
@@ -145,8 +241,8 @@ public class BookDetailDAO {
 			con=pool.getConnection();
 			String sql = "select*from"
 					+ "(select bd_no, bd_title, bd_price, bd_image\r\n"
-					+ "    from bookdetail order by bd_regdate desc)"
-					+ "where rownum<=8";
+					+ "    from bookdetail where bd_delflag is null order by bd_regdate desc)"
+					+ " where rownum<=8";
 			ps=con.prepareStatement(sql);
 			
 			rs=ps.executeQuery();
@@ -164,7 +260,8 @@ public class BookDetailDAO {
 			pool.dbClose(rs, ps, con);
 		}
 	}
-	//[8] 판매순으로 상위 8건만 조회 
+	
+	//[8] 베스트셀러
 	public List<BookDetailVo> showBestBook() throws SQLException{
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -172,10 +269,10 @@ public class BookDetailDAO {
 		List<BookDetailVo> list = new ArrayList<BookDetailVo>();
 		try {
 			con=pool.getConnection();
-			String sql = "select*from"
-					+ "(select bd_no, bd_title, bd_price, bd_image\r\n"
-					+ "    from bookdetail order by bd_sellcount)"
-					+ "where rownum<=8";
+			String sql = "select*from\r\n" + 
+					"(select bd_no, bd_title, bd_price, bd_image, bd_sellcount\r\n" + 
+					"from bookdetail where bd_delflag is null order by BD_SELLCOUNT desc)\r\n" + 
+					"where rownum<=8";
 			ps=con.prepareStatement(sql);
 			
 			rs=ps.executeQuery();
@@ -187,10 +284,30 @@ public class BookDetailDAO {
 				vo.setBd_image(rs.getString("bd_image"));
 				list.add(vo);
 			}
-			System.out.println("판매순 상위 8건 조회 결과 : "+list.size());
+			System.out.println("등록순 상위 8건 조회 결과 : "+list.size());
 			return list;
 		}finally {
 			pool.dbClose(rs, ps, con);
+		}
+	}
+	
+	//[9]판매시 판매 수량 판매 누적 업데이트
+	public int updateSellCount(int qtyNo, int bdNo) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		try {
+			con=pool.getConnection();
+			String sql="update bookdetail\r\n" + 
+					"set BD_SELLCOUNT=BD_SELLCOUNT+?\r\n" + 
+					"where bd_no = ?";
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, qtyNo);
+			ps.setInt(2, bdNo);
+			
+			int cnt = ps.executeUpdate();
+			return cnt;
+		}finally {
+			pool.dbClose(ps, con);
 		}
 	}
 	

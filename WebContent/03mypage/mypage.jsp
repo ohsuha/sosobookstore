@@ -41,16 +41,7 @@
 								</tr>
 								<tr>
 									<td colspan="5" class="align_center"  >
-										<a href="myorder.jsp" style="color: gray;" >고객님께서 주문하신 상품의 주문내역을 확인하실 수 있습니다.</a></td>
-								</tr>
-								
-								<tr>
-									<th colspan="5" class="align_center" style="font-size: 20px;" >
-										<a href="../04cart/cart.jsp"  style="color: black;" ><br><br>장바구니</a></th>
-								</tr>
-								<tr>
-									<td colspan="5" class="align_center"  >
-										<a href="../04cart/cart.jsp" style="color: gray;" >고객님의 장바구니 내역을 확인하실 수 있습니다.</a></td>
+										<a href="myorder.jsp?userid=<%=userid %>" style="color: gray;" >고객님께서 주문하신 상품의 주문내역을 확인하실 수 있습니다.</a></td>
 								</tr>
 								
 								<tr>
@@ -60,6 +51,15 @@
 								<tr>
 									<td colspan="5" class="align_center"  >
 										<a href="userEdit.jsp" style="color: gray;" >회원이신 고객님의 개인정보를 관리하는 공간입니다.</a></td>
+								</tr>
+								
+								<tr>
+									<th colspan="5" class="align_center" style="font-size: 20px;" >
+										<a href="../04cart/cart.jsp"  style="color: black;" ><br><br>장바구니</a></th>
+								</tr>
+								<tr>
+									<td colspan="5" class="align_center"  >
+										<a href="../04cart/cart.jsp" style="color: gray;" >고객님의 장바구니 내역을 확인하실 수 있습니다.</a></td>
 								</tr>
 								
 								<tr>

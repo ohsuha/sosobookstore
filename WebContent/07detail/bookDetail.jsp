@@ -1,3 +1,4 @@
+<%@page import="com.bookstore.user.model.UserService"%>
 <%@page import="com.bookstore.cart.model.cartDAO"%>
 <%@page import="java.util.List"%>
 <%@page import="com.bookstore.comment.model.CommentDTO"%>
@@ -96,7 +97,10 @@
 	//3
 	//도서 소개 줄임
 	String content = vo.getBd_about();
-	String shortCont = content.substring(0, 90)+"...";
+	String shortCont = vo.getBd_about();
+	if(content.length()>90){
+		shortCont = content.substring(0, 90)+"...";
+	}
 	
 %>
 	<!-- Breadcrumb Section Begin -->
@@ -160,6 +164,21 @@
 							<li><b>출판일</b> <span><%=vo.getBd_pubdate() %></span></li>
 							<li><b>장르</b> <span><%=vo.getBk_kind_info() %></span></li>
 						</ul>
+						
+						<!-- 관리자에게만 보이는 옵션 -->
+						<%
+						if(mastercheck==UserService.MASTER_USER){
+							%>
+							<a href="../13bookeditdelete/delete.jsp?no=<%=vo.getBd_no() %>">
+								<input type="button" class="site-btn" value="도서 삭제" style="background-color:'red'">
+							</a>
+							
+							<a href="../13bookeditdelete/bookedit.jsp?no=<%=vo.getBd_no() %>">
+								<input type="button" class="site-btn" value="도서 수정">
+							</a>
+							<%
+						}
+						%>
 					</div>
 				</div>
 				<div class="col-lg-12">
@@ -192,7 +211,6 @@
 															<th></th>
 															<th>작성자</th>
 															<th>작성일</th>
-															<th></th>
 														</tr>
 													</thead>
 													<tbody>
@@ -212,8 +230,7 @@
 															<td class="shoping__cart__total">
 																<h5><%=dto.getSc_regdate() %></h5>
 															</td>
-															<td class="shoping__cart__item__close"><span
-																class="icon_close"></span></td>
+															
 														</tr>
 														<%}//for
                                 					}else{%>

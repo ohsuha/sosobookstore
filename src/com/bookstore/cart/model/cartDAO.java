@@ -1,5 +1,6 @@
 package com.bookstore.cart.model;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,24 +17,48 @@ public class cartDAO {
 		pool=ConnectionPoolMgr.getInstance();
 	}
 	
-	/*//리스트 페이지에서 장바구니에 담기
-	public int insertCart(int bookNo, String userId) throws SQLException {
+	/*
+	//도서 상세 페이지에서 장바구니 담기
+	public int insertCartDetail(int bookNo, int bookQty, String userId) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps =null;
 		
 		try {
 			con=pool.getConnection();
-			String sql="insert into cart(c_no, bu_userid, bd_no)\r\n" + 
-					"values(cart_seq.nextval,?,?)";
+			String sql="insert into cart(c_no, C_BOOKQTY, bu_userid, bd_no)\r\n" + 
+					"values(cart_seq.nextval, ?, ? ,?)";
 			ps=con.prepareStatement(sql);
-			ps.setString(1, userId);
-			ps.setInt(2, bookNo);
+			ps.setInt(1, bookQty);
+			ps.setString(2, userId);
+			ps.setInt(3, bookNo);
 			int cnt=ps.executeUpdate();
 			return cnt;
 		}finally {
 			pool.dbClose(ps, con);
 		}
 	}*/
+	
+	//도서 상세페이지에서 장바구니 담기  : 프로시저 사용
+	public void insertCartDetail(int bookNo, int bookQty, String userId) throws SQLException {
+		Connection con = null;
+		CallableStatement ps=null;
+		
+		try {
+			con=pool.getConnection();
+			
+			String sql ="call insertcart(?,?,?)";
+			ps=con.prepareCall(sql);
+			ps.setInt(1, bookNo);
+			ps.setInt(2, bookQty);
+			ps.setString(3, userId);
+			
+			ps.execute();
+			System.out.println("장바구니 담기 매개변수 도서번호 "+bookNo+", 추가수량 : "+bookQty+", 아이디 : "+userId);
+			
+		}finally {
+			pool.dbClose(ps, con);
+		}
+	}
 	
 	//사용자 아이디로 장바구니 내역 보여주기
 	public List<cartDTO> showCart(String bu_userid) throws SQLException{
@@ -70,25 +95,6 @@ public class cartDAO {
 		} 
 	}
 	
-	//도서 상세 페이지에서 장바구니 담기
-	public int insertCartDetail(int bookNo, int bookQty, String userId) throws SQLException {
-		Connection con = null;
-		PreparedStatement ps =null;
-		
-		try {
-			con=pool.getConnection();
-			String sql="insert into cart(c_no, C_BOOKQTY, bu_userid, bd_no)\r\n" + 
-					"values(cart_seq.nextval, ?, ? ,?)";
-			ps=con.prepareStatement(sql);
-			ps.setInt(1, bookQty);
-			ps.setString(2, userId);
-			ps.setInt(3, bookNo);
-			int cnt=ps.executeUpdate();
-			return cnt;
-		}finally {
-			pool.dbClose(ps, con);
-		}
-	}
 	
 	//장바구니에서 상품 삭제하기
 		public int deleteCartByNo(int c_no) throws SQLException {

@@ -1,3 +1,5 @@
+<%@page import="com.bookstore.book.model.BookDetailVo"%>
+<%@page import="com.bookstore.book.model.BookDetailDAO"%>
 <%@page import="com.bookstore.orderDetail.model.OrderDetailDAO"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="com.bookstore.order.model.OrderDAO"%>
@@ -51,16 +53,22 @@ cartDAO cartDao = new cartDAO();
 List<cartDTO> cartList=cartDao.showCart(userid);
 int odCnt = 0;
 OrderDetailDAO odDao = new OrderDetailDAO();
+BookDetailDAO bookDao = new BookDetailDAO();
+
 try{
 	if(oCnt>0){
 		for(cartDTO n : cartList){
 			System.out.println("장바구니 내역들 : "+n);
+			
 			OrderDetailDTO odDto = new OrderDetailDTO();
 			odDto.setBd_no(n.getBd_no());//상품번호
 			odDto.setOd_qty(n.getC_bookqty()); //수량
+			//3-1 해당 상품번호에 주문 수량으로 판매 횟수 누적해주기
 			odDto.setO_no(od_no); //주문번호
 			odCnt = odDao.insertOrderDeatil(odDto);
 			System.out.println("주문상세 입력 내역 : "+odDto);
+			int cnt = bookDao.updateSellCount(n.getC_bookqty(), n.getBd_no());
+			System.out.println("해당 도서 구매 갯수 업데이트 완료? cnt : "+cnt);
 		}
 	}
 }catch(SQLException e){

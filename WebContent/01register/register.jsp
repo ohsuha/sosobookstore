@@ -85,17 +85,26 @@ if(userid==null){
             <div class="checkout__form">
                 <h4>회원가입</h4>
                     <div class="row">
-                        <div class="col-lg-8 col-md-6">
+                        <div class="col-lg-12 col-md-12">
                         	<form name="form2" method="post" action="register_ok.jsp">
-                           		<div class="col-lg-8">
+                        	<div class="row">
+                           		<div class="col-lg-8  col-md-6">
                             	<div class="checkout__input">
                                  <p>이름</p>
                                  <input type="text" name="name" id="name" style="ime-mode:active" >
                              </div>
+                             <div class="row">
+                                <div class="col-lg-6">
                             <div class="checkout__input">
                                  <p>아이디</p>
                                 <input type="text" placeholder="중복체크를 해주세요" value="<%=userid%>" style="ime-mode:inactive" name="userid" id="userid">&nbsp;
-                                <input type="button" value="중복확인" id="btnChkId" title="새창열림">
+                                </div>
+	                            </div>
+                              <div class="col-lg-6">
+		                            <div class="checkout__input">
+		                                <p><span>&nbsp</span></p>
+                                <button type="button" id="btnChkId" class="site-btn" title="아이디 중복 확인">아이디 중복 확인</button>
+                                </div></div>
                             </div>
                             <div class="checkout__input">
                                 <p>비밀번호</p>
@@ -105,25 +114,33 @@ if(userid==null){
                                 <p>비밀번호확인</p>
                                 <input type="password" name="passwordcheck" id="passwordcheck">
                             </div>
-                            </div>
-                            <div class="col-lg-5">
+                            
+                            <div class="row">
+                           	 <div class="col-lg-6">
                             	<div class="checkout__input">
-                                <p>우편번호</p>
-                                <input type="text" name="zipcode" id="zipcode">&nbsp;
-                                <input type="Button" value="우편번호 찾기" id="btnZipcode" title="새창열림"><br />
+                                	<p>우편번호</p>
+                                	<input type="text" name="zipcode" id="zipcode">
+                                	</div>
+                                	</div>
+                                	<div class="col-lg-6">
+		                            <div class="checkout__input">
+		                            <p><span>&nbsp</span></p>
+                                <button type="Button" class="site-btn" id="btnZipcode" title="우편번호 검색">우편번호 검색</button><br />
+                            </div>
                             </div>
                             </div>
                              <div class="checkout__input">
                                 <p>주소</p>
-                                <input type="text" name="address1" id="add1" readonly>
-                                <p>상세주소</p>
-                                <input type="text" name="address2" id="add2">
+                                <input type="text" name="address1" id="address1" class="checkout__input__add" readonly><br>
+                                <input type="text" name="address2" id="address2" placeholder="상세 주소 입력">
                             </div>
                             <div class="checkout__input">
                                 <p>전화번호(-없이 입력)</p>
                                 <input type="text" name="hp" id="hp">
                             </div>
                             <button type="submit" class="site-btn" id="regi" name="id">회원가입하기</button>
+                            </div>
+                            </div>
                             </form>
                         </div>
                         <div class="col-lg-4 col-md-6">
@@ -132,11 +149,9 @@ if(userid==null){
             </div>
         </div>
     </section>
-     <input type ="text" name="chkId" id="chkId">
+     <input type ="hidden" name="chkId" id="chkId">
     <!-- Checkout Section End -->
-    <!-- Footer Section Begin -->
-	<%@include file="../00inc/footer.jsp" %>
-    <!-- Footer Section End -->
-
-</body>
-</html>
+    
+<!-- Footer Section Begin -->
+<%@include file="../00inc/footer.jsp" %>
+<!-- Footer Section End -->

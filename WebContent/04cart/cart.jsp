@@ -52,7 +52,6 @@ $(function(){
 	<%
    //회원이 담은 도서 목록 나열
    request.setCharacterEncoding("utf-8");
-
    //
    cartDAO dao = new cartDAO();
    List<cartDTO> list = null;
@@ -175,7 +174,6 @@ $(function(){
 								</tr>
 								<%}//for
                         }//if %>
-
 							</tbody>
 						</table>
 					</div>
@@ -185,22 +183,15 @@ $(function(){
 				<div class="col-lg-12">
 					<div class="shoping__cart__btns">
 						<!-- 전체 삭제 -->
-						<form name="frmDelete" method="post"
-							action="cart_delete_ok.jsp?bu_userid=testuser" style="float:left">
-							<input type="submit" value="전체 삭제" class="primary-btn cart-btn cart-btn-left" />
-						</form>
-						<!-- 장바구니 업데이트 버튼 추가 : form으로 여기에 인풋, 히든으로 바뀐 정보 다 넣어서 자기 페이지로 post -->
-						
 						
 						<form name="frmDelete" method="post"
-							action="cart_delete_ok.jsp?bu_userid=testuser">
-							<input type="submit" value="수정 반영" class="primary-btn cart-btn cart-btn-right" />
+							action="cart_delete_ok.jsp?bu_userid=<%=userid%>">
+							<input type="submit" value="전체 삭제" class="primary-btn cart-btn cart-btn-right" />
 						</form>
 						<!-- <a href="#" class="primary-btn cart-btn cart-btn-right"></span> </a> -->
 					</div>
 				</div>
 				<div class="col-lg-6"></div>
-
 				<div class="col-lg-12">
 					<div class="shoping__checkout">
 						<h5>
@@ -208,12 +199,10 @@ $(function(){
 							<span id="total"> </span><span>원</span>
 							<input type="hidden" id="totalPrice" value="0">
 						</h5>
-
 						<!-- <ul>
 							<li>Subtotal <span>$454.98</span></li>
 							<li>Total <span>$454.98</span></li>
 						</ul> -->
-
 						<a href="../05checkout/checkOut.jsp" class="primary-btn">상품 주문</a>
 					</div>
 				</div>
@@ -221,7 +210,6 @@ $(function(){
 		</div>
 	</section>
 	<!-- Shoping Cart Section End -->
-
     <!-- Footer Section Begin -->
 	<%@include file="../00inc/footer.jsp" %>
     <!-- Footer Section End -->

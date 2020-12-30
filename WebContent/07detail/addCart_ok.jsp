@@ -23,13 +23,11 @@
 	//2
 	
 	cartDAO dao = new cartDAO();
-	String msg="장바구니 담기 실패!", url="/07detail/bookDetail.jsp?no="+bookNo;
+	String msg ="", url="";
 	try{
-		int cnt = dao.insertCartDetail(bookNo	, bookQty, userId);
-		System.out.println("장바구니 담기 성공여부 : "+cnt+", 매개변수 갯수 : "+bookQ+", 매개변수 도서 번호 : "+bookNo);
-		if(cnt>0){
-			 msg="장바구니에 "+bookQty+"권의 도서가 담겼습니다.";
-		}
+		dao.insertCartDetail(bookNo	, bookQty, userId);
+		msg="장바구니에 "+bookQty+"권의 도서가 담겼습니다.";
+		url="/07detail/bookDetail.jsp?no="+bookNo;
 	}catch(SQLException e){
 		e.printStackTrace();
 	}
