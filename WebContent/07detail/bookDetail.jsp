@@ -101,7 +101,6 @@
 	if(content.length()>90){
 		shortCont = content.substring(0, 90)+"...";
 	}
-	
 %>
 	<!-- Breadcrumb Section Begin -->
 	<section class="breadcrumb-section set-bg"
@@ -225,7 +224,7 @@
 															</td>
 															<td></td>
 															<td class="shoping__cart__price">
-																<h5><%=dto.getBu_userid() %></h5>
+																<h5><%=dto.getBu_userid()%></h5>
 															</td>
 															<td class="shoping__cart__total">
 																<h5><%=dto.getSc_regdate() %></h5>

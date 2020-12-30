@@ -16,13 +16,12 @@
 	
 	String bookNo = request.getParameter("bdNoForRivew");
 	String comment = request.getParameter("rivewCont");
-	//사용자 아이디 나중에 꼭 받아오기
-	String userId = "testuser";
+	String userid=(String)session.getAttribute("userid");
 	//2
 	CommentDAO dao = new CommentDAO();
 	int cnt=0;
 	try{
-		cnt = dao.insertReview(Integer.parseInt(bookNo), userId, comment);
+		cnt = dao.insertReview(Integer.parseInt(bookNo), userid, comment);
 	}catch(SQLException e){
 		e.printStackTrace();
 	}
